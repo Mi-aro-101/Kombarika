@@ -8,11 +8,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Activite {
 	[Key]
 	[Column("activite_id")]
-	int activiteId { get; set; }
+	public int activiteId { get; set; }
 	[Column("nom_activite")]
-	string nomActivite { get; set; }
+	public string nomActivite { get; set; }
 	[Column("prix_unitaire")]
-	decimal prixUnitaire { get; set; }
+	public decimal prixUnitaire { get; set; }
 
 
 	public Activite(){}

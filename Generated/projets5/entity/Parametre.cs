@@ -8,11 +8,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Parametre {
 	[Key]
 	[Column("parametre_id")]
-	int parametreId { get; set; }
+	public int parametreId { get; set; }
 	[Column("valeur")]
-	decimal valeur { get; set; }
+	public decimal valeur { get; set; }
 	[Column("libelle")]
-	string libelle { get; set; }
+	public string libelle { get; set; }
 
 
 	public Parametre(){}

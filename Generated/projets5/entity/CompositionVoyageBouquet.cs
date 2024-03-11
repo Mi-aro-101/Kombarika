@@ -7,15 +7,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 [Table("composition_voyage_bouquet")]
 public class CompositionVoyageBouquet {
 	[ForeignKey("voyage_id_composition_voyage_bouquet")]
-	Voyage voyage { get; set; }
+	public int voyageIdCompositionVoyageBouquet { get; set; }
+	public Voyage voyage { get; set; }
 	[Column("nombre_fois")]
-	int nombreFois { get; set; }
+	public int nombreFois { get; set; }
 	[ForeignKey("activite_id_composition_voyage_bouquet")]
-	Activite activite { get; set; }
+	public int activiteIdCompositionVoyageBouquet { get; set; }
+	public Activite activite { get; set; }
 	[ForeignKey("type_duree_id_composition_voyage_bouquet")]
-	TypeDuree typeDuree { get; set; }
+	public int typeDureeIdCompositionVoyageBouquet { get; set; }
+	public TypeDuree typeDuree { get; set; }
 	[ForeignKey("bouquet_id_composition_voyage_bouquet")]
-	Bouquet bouquet { get; set; }
+	public int bouquetIdCompositionVoyageBouquet { get; set; }
+	public Bouquet bouquet { get; set; }
 
 
 	public CompositionVoyageBouquet(){}

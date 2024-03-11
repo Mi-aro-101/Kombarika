@@ -8,17 +8,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Reservation {
 	[Key]
 	[Column("reservation_id")]
-	int reservationId { get; set; }
+	public int reservationId { get; set; }
 	[Column("nbs_personne")]
-	int nbsPersonne { get; set; }
+	public int nbsPersonne { get; set; }
 	[Column("montant_total")]
-	decimal montantTotal { get; set; }
+	public decimal montantTotal { get; set; }
 	[Column("date_heure_reservation")]
-	DateTime dateHeureReservation { get; set; }
+	public DateTime dateHeureReservation { get; set; }
 	[ForeignKey("client_id_reservation")]
-	Client client { get; set; }
+	public int clientIdReservation { get; set; }
+	public Client client { get; set; }
 	[ForeignKey("voyage_id_reservation")]
-	Voyage voyage { get; set; }
+	public int voyageIdReservation { get; set; }
+	public Voyage voyage { get; set; }
 
 
 	public Reservation(){}

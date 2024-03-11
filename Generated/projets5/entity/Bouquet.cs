@@ -8,11 +8,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Bouquet {
 	[Key]
 	[Column("bouquet_id")]
-	int bouquetId { get; set; }
+	public int bouquetId { get; set; }
 	[Column("nom_bouquet")]
-	string nomBouquet { get; set; }
+	public string nomBouquet { get; set; }
 	[Column("heure_travail")]
-	int heureTravail { get; set; }
+	public int heureTravail { get; set; }
 
 
 	public Bouquet(){}

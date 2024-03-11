@@ -7,11 +7,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 [Table("type_main_oeuvre_duree")]
 public class TypeMainOeuvreDuree {
 	[ForeignKey("type_duree_id_main_oeuvre_duree")]
-	TypeDuree typeDuree { get; set; }
+	public int typeDureeIdMainOeuvreDuree { get; set; }
+	public TypeDuree typeDuree { get; set; }
 	[Column("nb_main_oeuvre")]
-	int nbMainOeuvre { get; set; }
+	public int nbMainOeuvre { get; set; }
 	[ForeignKey("type_main_oeuvre_id_main_oeuvre_duree")]
-	TypeMainOeuvre typeMainOeuvre { get; set; }
+	public int typeMainOeuvreIdMainOeuvreDuree { get; set; }
+	public TypeMainOeuvre typeMainOeuvre { get; set; }
 
 
 	public TypeMainOeuvreDuree(){}

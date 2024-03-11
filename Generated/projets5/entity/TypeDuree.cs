@@ -7,14 +7,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 [Table("type_duree")]
 public class TypeDuree {
 	[Column("nom_type_duree")]
-	string nomTypeDuree { get; set; }
+	public string nomTypeDuree { get; set; }
 	[Column("prix_duree")]
-	int prixDuree { get; set; }
+	public int prixDuree { get; set; }
 	[Key]
 	[Column("type_duree_id")]
-	int typeDureeId { get; set; }
+	public int typeDureeId { get; set; }
 	[Column("nombre_jour")]
-	int nombreJour { get; set; }
+	public int nombreJour { get; set; }
 
 
 	public TypeDuree(){}

@@ -7,14 +7,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 [Table("client")]
 public class Client {
 	[Column("sexe")]
-	int sexe { get; set; }
+	public int sexe { get; set; }
 	[Column("nom")]
-	string nom { get; set; }
+	public string nom { get; set; }
 	[Column("prenom")]
-	string prenom { get; set; }
+	public string prenom { get; set; }
 	[Key]
 	[Column("client_id")]
-	int clientId { get; set; }
+	public int clientId { get; set; }
 
 
 	public Client(){}

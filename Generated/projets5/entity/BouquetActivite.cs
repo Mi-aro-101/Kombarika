@@ -7,9 +7,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 [Table("bouquet_activite")]
 public class BouquetActivite {
 	[ForeignKey("activite_id_bouquet_activite")]
-	Activite activite { get; set; }
+	public int activiteIdBouquetActivite { get; set; }
+	public Activite activite { get; set; }
 	[ForeignKey("bouquet_id_bouquet_activite")]
-	Bouquet bouquet { get; set; }
+	public int bouquetIdBouquetActivite { get; set; }
+	public Bouquet bouquet { get; set; }
 
 
 	public BouquetActivite(){}

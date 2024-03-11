@@ -7,16 +7,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 [Table("mouvement")]
 public class Mouvement {
 	[ForeignKey("activite_id_mouvement")]
-	Activite activite { get; set; }
+	public int activiteIdMouvement { get; set; }
+	public Activite activite { get; set; }
 	[Column("quantite_entree")]
-	int quantiteEntree { get; set; }
+	public int quantiteEntree { get; set; }
 	[Column("quantite_sortie")]
-	int quantiteSortie { get; set; }
+	public int quantiteSortie { get; set; }
 	[Column("date_heure_mouvement")]
-	DateTime dateHeureMouvement { get; set; }
+	public DateTime dateHeureMouvement { get; set; }
 	[Key]
 	[Column("mouvement_id")]
-	int mouvementId { get; set; }
+	public int mouvementId { get; set; }
 
 
 	public Mouvement(){}

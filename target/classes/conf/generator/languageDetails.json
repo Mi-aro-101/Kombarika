@@ -7,7 +7,7 @@
             "openBracket":"{",
             "closeBracket":"}",
             "classSyntax":"public class",
-            "fieldSyntax":"Type field { get; set; }",
+            "fieldSyntax":"public Type field { get; set; }",
             "endOfInstruction":";",
             "annotationSyntax":"[?]",
             "constructorSyntax": "public ?(){}",
@@ -168,7 +168,7 @@
                     },
                     "repositoryProperty" : {
                         "name":"Repository",
-                        "classSyntax": "public interface ?Repository extends CrudRepository<?, #type#>",
+                        "classSyntax": "public interface ?Repository extends JpaRepository<?, #type#>",
                         "fieldSyntax": "",
                         "constructor":""
                     }

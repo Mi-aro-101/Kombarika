@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\MvcTest_Ef.props" />
+</Project>

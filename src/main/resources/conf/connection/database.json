@@ -2,13 +2,13 @@
     "defaultConnection" : "DefaultConnection",
     "listConnection": {
         "DefaultConnection": {
-            "datasource":"jdbc:postgresql://localhost:5432/ecole",
+            "datasource":"jdbc:postgresql://localhost:5432/meuble",
             "username":"miaro",
             "password":"miaro",
             "databaseType":"POSTGRESQL"
         },
         "OtherConnection": {
-            "datasource":"jdbc:postgresql://localhost:5432/ecole",
+            "datasource":"jdbc:postgresql://localhost:5432/meuble",
             "username":"miaro",
             "password":"miaro",
             "databaseType":"POSTGRESQL"

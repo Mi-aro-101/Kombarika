@@ -21,15 +21,24 @@ public class Test {
      
     public static void main(String[] args) throws Exception {
         CodeGenerator codeGenerator = new CodeGenerator();  
-        String path = "Generated";
-        String viewPath = "/home/mamisoa/ITU/L3/Mr_Naina/REACT/crud/src/components";
+        // Location of the generated code (Entity, Controller, Repository, ...)
+        String path = "GENERATED";
+        // Location of the views
+        String viewPath = "GENERATED";
+        // Choose framework
         String framework = "csharp:dotnet";
-        String packageName = "ecole";
+        // Package name where to put the files generated (root directory of all)
+        String packageName = "src";
+        // Package name for entity generated file
         String entity = "entity";
+        // Package name for controller generated file
         String controller = "controller";
+        // Package name for repository/context generated file
         String repository = "repository";
-        String view = "";
-        String viewType = "react";
+        // Views root directory
+        String view = "views";
+        // View type language
+        String viewType = "razor";
         String url = "http://localhost:8080/";
         try{
             // String[] tables = {"district","region"};
@@ -46,16 +55,15 @@ public class Test {
             //     System.out.println(table);
             
             /* My test */
-            codeGenerator.generateAllEntity(path, tables, packageName, entity, framework);
-            codeGenerator.generateAllRepository(path, tables, packageName, entity, repository, framework);
-            codeGenerator.generateAllController(path, tables, packageName, entity, controller, repository, framework);
-            
+//            codeGenerator.generateAllEntity(path, tables, packageName, entity, framework);
+//            codeGenerator.generateAllRepository(path, tables, packageName, entity, repository, framework);
+//            codeGenerator.generateAllController(path, tables, packageName, entity, controller, repository, framework);
             /* Main test */
-//            codeGenerator.generateAll(path, viewPath, packageName, entity, controller, repository, view, viewType, url, tables, framework);
+            codeGenerator.generateAll(path, viewPath, packageName, entity, controller, repository, view, viewType, url, tables, framework);
         }catch(Exception e){
             e.printStackTrace();
         }finally{
             codeGenerator.getDbConnection().close();
-        }    
+        }
     }
 }

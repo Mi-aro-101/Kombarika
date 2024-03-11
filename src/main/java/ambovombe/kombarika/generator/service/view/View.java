@@ -8,8 +8,10 @@ import java.util.Map;
 import ambovombe.kombarika.configuration.mapping.FrameworkProperties;
 import ambovombe.kombarika.configuration.mapping.ViewProperties;
 import ambovombe.kombarika.database.DbConnection;
+import ambovombe.kombarika.generator.CodeGenerator;
 import ambovombe.kombarika.generator.parser.FileUtility;
 import ambovombe.kombarika.generator.service.DbService;
+import ambovombe.kombarika.generator.service.GeneratorService;
 import ambovombe.kombarika.generator.utils.ObjectUtility;
 import ambovombe.kombarika.utils.Misc;
 import lombok.Getter;
@@ -19,6 +21,8 @@ import lombok.Setter;
 public class View {
     ViewProperties viewProperties;
     FrameworkProperties frameworkProperties;
+    // Used only for multiple view file like razor
+    CrudViewGenerator crudViews;
 
     public String getInputInsert(HashMap<String, String> columns, HashMap<String, String> foreignKeys, List<String> primaryKeys, String url, String id, String attribute) throws Exception{
         String res ="";
@@ -198,7 +202,7 @@ public class View {
 
     public String generateView(String table, String url, DbConnection dbConnection) throws Exception{
         String res = "";        
-        String tempPath = Misc.getViewTemplateLocation().concat(File.separator).concat(this.getViewProperties().getTemplate());
+        String tempPath = Misc.getViewTemplateLocation().concat(File.separator).concat(this.getViewProperties().getTemplates().get("CRUD"));
         String template = FileUtility.readOneFile(tempPath);
         List<String> primaryKeys = DbService.getPrimaryKey(dbConnection, table);
         String path =  ObjectUtility.formatToCamelCase(table);
@@ -224,4 +228,80 @@ public class View {
 
         return res;
     }
+    
+    /*-------------- Miaro ------------------------------------*/
+
+    /**
+     * Generate one directory for each table to story the generated view files
+     * @param view
+     * @param path
+     * @param table
+     * @param directory
+     * @param viewType
+     * @param url
+     * @return
+     * @throws Exception
+     */
+    public Map<String, String> generateViewsDirectory(String path, String table, String directory, String viewType, String url, CodeGenerator codegen)
+    throws Exception{
+    	
+    	Map<String, String> result = new HashMap<String, String>();
+    	
+    	FileUtility.createDirectory(directory,path);
+    	path = path + File.separator + directory;
+        String fileName = GeneratorService.getFileName(table, codegen.getViewDetails().getViews().get(viewType).getExtension());
+        String newDirectory = ObjectUtility.capitalize(table);
+        FileUtility.createDirectory(newDirectory, path);
+
+        result.put("path", path);
+        result.put("fileName", fileName);
+        result.put("directory", newDirectory);
+        
+        return result;
+    }
+    
+    /**
+     * Generate the file file in the named directory for just one view
+     * @param view
+     * @param path
+     * @param table
+     * @param directory
+     * @param viewType
+     * @param url
+     * @throws Exception
+     */
+    public void createOneViewFile(
+    		String table, 
+    		DbConnection dbconnection,
+    		String path,
+    		String directory,
+    		String viewType,
+    		String url,
+    		CodeGenerator codegen)
+    				throws Exception{
+
+    	Map<String, String> dirLocations = this.generateViewsDirectory(path, table, directory, viewType, url, codegen);
+    	String fileBody = this.generateView(table, url, dbconnection);
+    	String newDirectory = dirLocations.get("directory");
+    	String fileName = dirLocations.get("fileName");
+    	String updatedPath = dirLocations.get("path");
+
+        FileUtility.generateFile(updatedPath + File.separator + newDirectory, fileName, fileBody);
+    }
+    
+    public void createMultipleViewFile(
+    		String table, 
+    		DbConnection dbconnection,
+    		String path,
+    		String directory,
+    		String viewType,
+    		String url,
+    		CodeGenerator codegen)throws Exception{
+    	// Create directory for each table <=> class
+    	crudViews = new CrudViewGenerator();
+    	Map<String, String> dirLocations = this.generateViewsDirectory(path, table, directory, viewType, url, codegen);
+    	crudViews.generateCreatePage(this, table, url, dbconnection);
+    }
+    
+    /*------------------------------------------------------------------*/
 }

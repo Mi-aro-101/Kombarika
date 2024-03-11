@@ -21,7 +21,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -214,12 +216,6 @@ public class CodeGenerator {
         FileUtility.generateFile(path, GeneratorService.getFileName(table + this.getFrameworkProperties().getControllerProperty().getName() , languageProperties.getExtension()), content);
     }
 
-    public String buildView(String table, String viewType, String url) throws Exception{
-        View view = new View();
-        view.setViewProperties(this.getViewDetails().getViews().get(viewType));
-        view.setFrameworkProperties(this.getFrameworkProperties());
-        return view.generateView(table, url, dbConnection);
-    }
     public void generateView(
         String path, 
         String table,
@@ -227,13 +223,19 @@ public class CodeGenerator {
         String viewType,
         String url
     ) throws Exception{
-        String view = buildView(table, viewType, url);
-        FileUtility.createDirectory(directory,path);
-        path = path + File.separator + directory;
-        String fileName = GeneratorService.getFileName(table, this.getViewDetails().getViews().get(viewType).getExtension());
-        String newDirectory = ObjectUtility.capitalize(table);
-        FileUtility.createDirectory(newDirectory, path);
-        FileUtility.generateFile(path + File.separator + newDirectory, fileName, view);
+        View viewToGenerate = new View();
+        viewToGenerate.setViewProperties(this.getViewDetails().getViews().get(viewType));
+        viewToGenerate.setFrameworkProperties(this.getFrameworkProperties());
+                
+        if(viewToGenerate.getViewProperties().isMultipleTemplate()){
+            // Implement multiple view Template like razor generation
+        	viewToGenerate.createMultipleViewFile(table, dbConnection, path, directory, viewType, url, this);
+            return ;
+        }
+        else if(!viewToGenerate.getViewProperties().isMultipleTemplate()){
+            viewToGenerate.createOneViewFile(table, dbConnection, path, directory, viewType, url, this);
+        }
+        
     }
     
     public void generateAllEntity(

@@ -12,25 +12,58 @@ public class TypeMainOeuvreDureeController : Controller {
 	private readonly ILogger<TypeMainOeuvreDureeController> _logger;
 
 	[HttpPost]
-	public ActionResult<TypeMainOeuvreDuree> save([FromBody] TypeMainOeuvreDuree typeMainOeuvreDuree){
+	public async Task<IActionResult> Create([] TypeMainOeuvreDuree typeMainOeuvreDuree){
 	 	_context.typeMainOeuvreDuree.Add(typeMainOeuvreDuree);
-		_context.SaveChanges();
-		return Ok();
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
 	}
-	[HttpPut]
-	public ActionResult<TypeMainOeuvreDuree> update([FromBody] TypeMainOeuvreDuree typeMainOeuvreDuree){
-	 	var temp = typeMainOeuvreDuree;
-		_context.SaveChanges();
-		return Ok();
+	public IActionResult Create()
+	{
+		#foreignKey#
+		return View();
 	}
-	[HttpDelete]
-	public void delete([FromBody] TypeMainOeuvreDuree typeMainOeuvreDuree){
-	 	_context.TypeMainOeuvreDuree.Remove(typeMainOeuvreDuree);
-		_context.SaveChanges();	return Ok();
+	[HttpPost]
+	public async Task<IActionResult> Edit([] TypeMainOeuvreDuree typeMainOeuvreDuree){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		_context.TypeMainOeuvreDuree.Update(typeMainOeuvreDuree);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	public IActionResult Edit()
+	{
+		if (id == null)
+		{
+			return NotFound();
+		}
+		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (#object# == null)
+		{
+			return NotFound();
+		}
+		#foreignKey#
+		return View(#object#);
 	}
 	[HttpGet]
-	public ActionResult<IEnumerable<TypeMainOeuvreDuree>> findAll(){
-	 	return Ok(_context.TypeMainOeuvreDuree.ToList());
+	public async Task<IActionResult> Delete([] TypeMainOeuvreDuree typeMainOeuvreDuree){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		var typeMainOeuvreDuree = await _context.TypeMainOeuvreDuree.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (typeMainOeuvreDuree == null)
+		{
+			return NotFound();
+		}
+		_context.TypeMainOeuvreDuree.Remove(typeMainOeuvreDuree);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	[HttpGet]
+	public async Task<IActionResult> Index(){
+	 	return View(await _context.TypeMainOeuvreDuree.ToListAsync());
 	}
 	public TypeMainOeuvreDureeController(RepositoryDbContext context) { _context = context; }
 

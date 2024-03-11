@@ -12,25 +12,58 @@ public class TypeMainOeuvreController : Controller {
 	private readonly ILogger<TypeMainOeuvreController> _logger;
 
 	[HttpPost]
-	public ActionResult<TypeMainOeuvre> save([FromBody] TypeMainOeuvre typeMainOeuvre){
+	public async Task<IActionResult> Create([] TypeMainOeuvre typeMainOeuvre){
 	 	_context.typeMainOeuvre.Add(typeMainOeuvre);
-		_context.SaveChanges();
-		return Ok();
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
 	}
-	[HttpPut]
-	public ActionResult<TypeMainOeuvre> update([FromBody] TypeMainOeuvre typeMainOeuvre){
-	 	var temp = typeMainOeuvre;
-		_context.SaveChanges();
-		return Ok();
+	public IActionResult Create()
+	{
+		#foreignKey#
+		return View();
 	}
-	[HttpDelete]
-	public void delete([FromBody] TypeMainOeuvre typeMainOeuvre){
-	 	_context.TypeMainOeuvre.Remove(typeMainOeuvre);
-		_context.SaveChanges();	return Ok();
+	[HttpPost]
+	public async Task<IActionResult> Edit([] TypeMainOeuvre typeMainOeuvre){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		_context.TypeMainOeuvre.Update(typeMainOeuvre);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	public IActionResult Edit()
+	{
+		if (id == null)
+		{
+			return NotFound();
+		}
+		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (#object# == null)
+		{
+			return NotFound();
+		}
+		#foreignKey#
+		return View(#object#);
 	}
 	[HttpGet]
-	public ActionResult<IEnumerable<TypeMainOeuvre>> findAll(){
-	 	return Ok(_context.TypeMainOeuvre.ToList());
+	public async Task<IActionResult> Delete([] TypeMainOeuvre typeMainOeuvre){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		var typeMainOeuvre = await _context.TypeMainOeuvre.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (typeMainOeuvre == null)
+		{
+			return NotFound();
+		}
+		_context.TypeMainOeuvre.Remove(typeMainOeuvre);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	[HttpGet]
+	public async Task<IActionResult> Index(){
+	 	return View(await _context.TypeMainOeuvre.ToListAsync());
 	}
 	public TypeMainOeuvreController(RepositoryDbContext context) { _context = context; }
 

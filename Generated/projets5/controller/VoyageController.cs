@@ -12,25 +12,58 @@ public class VoyageController : Controller {
 	private readonly ILogger<VoyageController> _logger;
 
 	[HttpPost]
-	public ActionResult<Voyage> save([FromBody] Voyage voyage){
+	public async Task<IActionResult> Create([] Voyage voyage){
 	 	_context.voyage.Add(voyage);
-		_context.SaveChanges();
-		return Ok();
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
 	}
-	[HttpPut]
-	public ActionResult<Voyage> update([FromBody] Voyage voyage){
-	 	var temp = voyage;
-		_context.SaveChanges();
-		return Ok();
+	public IActionResult Create()
+	{
+		#foreignKey#
+		return View();
 	}
-	[HttpDelete]
-	public void delete([FromBody] Voyage voyage){
-	 	_context.Voyage.Remove(voyage);
-		_context.SaveChanges();	return Ok();
+	[HttpPost]
+	public async Task<IActionResult> Edit([] Voyage voyage){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		_context.Voyage.Update(voyage);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	public IActionResult Edit()
+	{
+		if (id == null)
+		{
+			return NotFound();
+		}
+		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (#object# == null)
+		{
+			return NotFound();
+		}
+		#foreignKey#
+		return View(#object#);
 	}
 	[HttpGet]
-	public ActionResult<IEnumerable<Voyage>> findAll(){
-	 	return Ok(_context.Voyage.ToList());
+	public async Task<IActionResult> Delete([] Voyage voyage){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		var voyage = await _context.Voyage.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (voyage == null)
+		{
+			return NotFound();
+		}
+		_context.Voyage.Remove(voyage);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	[HttpGet]
+	public async Task<IActionResult> Index(){
+	 	return View(await _context.Voyage.ToListAsync());
 	}
 	public VoyageController(RepositoryDbContext context) { _context = context; }
 

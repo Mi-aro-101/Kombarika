@@ -12,25 +12,58 @@ public class CompositionVoyageBouquetController : Controller {
 	private readonly ILogger<CompositionVoyageBouquetController> _logger;
 
 	[HttpPost]
-	public ActionResult<CompositionVoyageBouquet> save([FromBody] CompositionVoyageBouquet compositionVoyageBouquet){
+	public async Task<IActionResult> Create([] CompositionVoyageBouquet compositionVoyageBouquet){
 	 	_context.compositionVoyageBouquet.Add(compositionVoyageBouquet);
-		_context.SaveChanges();
-		return Ok();
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
 	}
-	[HttpPut]
-	public ActionResult<CompositionVoyageBouquet> update([FromBody] CompositionVoyageBouquet compositionVoyageBouquet){
-	 	var temp = compositionVoyageBouquet;
-		_context.SaveChanges();
-		return Ok();
+	public IActionResult Create()
+	{
+		#foreignKey#
+		return View();
 	}
-	[HttpDelete]
-	public void delete([FromBody] CompositionVoyageBouquet compositionVoyageBouquet){
-	 	_context.CompositionVoyageBouquet.Remove(compositionVoyageBouquet);
-		_context.SaveChanges();	return Ok();
+	[HttpPost]
+	public async Task<IActionResult> Edit([] CompositionVoyageBouquet compositionVoyageBouquet){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		_context.CompositionVoyageBouquet.Update(compositionVoyageBouquet);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	public IActionResult Edit()
+	{
+		if (id == null)
+		{
+			return NotFound();
+		}
+		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (#object# == null)
+		{
+			return NotFound();
+		}
+		#foreignKey#
+		return View(#object#);
 	}
 	[HttpGet]
-	public ActionResult<IEnumerable<CompositionVoyageBouquet>> findAll(){
-	 	return Ok(_context.CompositionVoyageBouquet.ToList());
+	public async Task<IActionResult> Delete([] CompositionVoyageBouquet compositionVoyageBouquet){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		var compositionVoyageBouquet = await _context.CompositionVoyageBouquet.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (compositionVoyageBouquet == null)
+		{
+			return NotFound();
+		}
+		_context.CompositionVoyageBouquet.Remove(compositionVoyageBouquet);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	[HttpGet]
+	public async Task<IActionResult> Index(){
+	 	return View(await _context.CompositionVoyageBouquet.ToListAsync());
 	}
 	public CompositionVoyageBouquetController(RepositoryDbContext context) { _context = context; }
 

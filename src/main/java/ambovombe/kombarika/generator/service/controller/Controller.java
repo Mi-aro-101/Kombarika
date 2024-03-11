@@ -34,21 +34,23 @@ public class Controller {
                 this.getControllerProperty().getAnnotationArgumentParameterFormData()) + " "
                 + ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)) + " "
                 + ObjectUtility.formatToCamelCase(table);
-        body += Misc.tabulate(this.getCrudMethod().getSave()
+        body += Misc.tabulate(this.getCrudMethod().getSave().getContent()
                 .replace("?", ObjectUtility.formatToCamelCase(table))
                 .replace("#object#", ObjectUtility.formatToCamelCase(table))
                 .replace("?", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table))));
         String function = this.getLanguageProperties().getMethodSyntax()
-                .replace("#name#", "save")
+                .replace("#name#", this.crudMethod.getSave().getFunction())
                 .replace("#type#",
                         this.getControllerProperty().getReturnType().replace("?",
                                 ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table))))
                 .replace("#arg#", args)
                 .replace("#body#", body);
+        String viewFunction = this.crudMethod.getSave().getView();
+
         return Misc.tabulate(this.getLanguageProperties().getAnnotationSyntax().replace("?",
                 this.getControllerProperty().getPost()
                         .replace("?", ObjectUtility.formatToCamelCase(table)))
-                + "\n" + function);
+                + "\n" + function) + viewFunction;
     }
 
     public String update(String table) throws Exception {
@@ -58,20 +60,22 @@ public class Controller {
                 this.getControllerProperty().getAnnotationArgumentParameterFormData()) + " "
                 + ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)) + " "
                 + ObjectUtility.formatToCamelCase(table);
-        body += Misc.tabulate(this.getCrudMethod().getUpdate()
+        body += Misc.tabulate(this.getCrudMethod().getUpdate().getContent()
                 .replace("#object#", ObjectUtility.formatToCamelCase(table))
                 .replace("?", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table))));
         String function = this.getLanguageProperties().getMethodSyntax()
-                .replace("#name#", "update")
+                .replace("#name#", this.crudMethod.getUpdate().getFunction())
                 .replace("#type#",
                         this.getControllerProperty().getReturnType().replace("?",
                                 ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table))))
                 .replace("#arg#", args)
                 .replace("#body#", body);
+
+        String viewFunction = this.crudMethod.getUpdate().getView();
         return Misc.tabulate(this.getLanguageProperties().getAnnotationSyntax().replace("?",
                 this.getControllerProperty().getPut()
                         .replace("?", ObjectUtility.formatToCamelCase(table)))
-                + "\n" + function);
+                + "\n" + function) + viewFunction;
     }
 
     public String delete(String table) throws Exception {
@@ -81,11 +85,11 @@ public class Controller {
                 this.getControllerProperty().getAnnotationArgumentParameterFormData()) + " "
                 + ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)) + " "
                 + ObjectUtility.formatToCamelCase(table);
-        body += Misc.tabulate(this.getCrudMethod().getDelete()
+        body += Misc.tabulate(this.getCrudMethod().getDelete().getContent()
                 .replace("#object#", ObjectUtility.formatToCamelCase(table))
                 .replace("?", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table))));
         String function = this.getLanguageProperties().getMethodSyntax()
-                .replace("#name#", "delete")
+                .replace("#name#", this.crudMethod.getDelete().getFunction())
                 .replace("#type#",
                         this.getControllerProperty().getReturnTypeDelete().replace("?",
                                 ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table))))
@@ -99,11 +103,11 @@ public class Controller {
 
     public String findAll(String table) {
         String body = "";
-        body += Misc.tabulate(this.getCrudMethod().getFindAll()
+        body += Misc.tabulate(this.getCrudMethod().getFindAll().getContent()
                 .replace("#object#", ObjectUtility.formatToCamelCase(table))
                 .replace("?", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table))));
         String function = this.getLanguageProperties().getMethodSyntax()
-                .replace("#name#", "findAll")
+                .replace("#name#", this.crudMethod.getFindAll().getFunction())
                 .replace("#type#",
                         this.getControllerProperty().getReturnType().replace("?",
                                 this.getFrameworkProperties().getListSyntax().replace("?",
@@ -157,10 +161,12 @@ public class Controller {
 
     public String getControllerClass(String table, String framework) {
         String res = "";
+        // Annotation controller
         if (!this.getAnnotationProperty().getController().equals("")) {
             res += this.getLanguageProperties().getAnnotationSyntax()
                     .replace("?", this.getAnnotationProperty().getController()) + "\n";
         }
+        // Route Annotation controller
         if (!this.getControllerProperty().getPath().equals("")) {
             res += this.getLanguageProperties().getAnnotationSyntax()
                     .replace("?", this.getControllerProperty().getPath().replace("?",

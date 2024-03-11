@@ -12,25 +12,58 @@ public class BouquetController : Controller {
 	private readonly ILogger<BouquetController> _logger;
 
 	[HttpPost]
-	public ActionResult<Bouquet> save([FromBody] Bouquet bouquet){
+	public async Task<IActionResult> Create([] Bouquet bouquet){
 	 	_context.bouquet.Add(bouquet);
-		_context.SaveChanges();
-		return Ok();
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
 	}
-	[HttpPut]
-	public ActionResult<Bouquet> update([FromBody] Bouquet bouquet){
-	 	var temp = bouquet;
-		_context.SaveChanges();
-		return Ok();
+	public IActionResult Create()
+	{
+		#foreignKey#
+		return View();
 	}
-	[HttpDelete]
-	public void delete([FromBody] Bouquet bouquet){
-	 	_context.Bouquet.Remove(bouquet);
-		_context.SaveChanges();	return Ok();
+	[HttpPost]
+	public async Task<IActionResult> Edit([] Bouquet bouquet){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		_context.Bouquet.Update(bouquet);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	public IActionResult Edit()
+	{
+		if (id == null)
+		{
+			return NotFound();
+		}
+		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (#object# == null)
+		{
+			return NotFound();
+		}
+		#foreignKey#
+		return View(#object#);
 	}
 	[HttpGet]
-	public ActionResult<IEnumerable<Bouquet>> findAll(){
-	 	return Ok(_context.Bouquet.ToList());
+	public async Task<IActionResult> Delete([] Bouquet bouquet){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		var bouquet = await _context.Bouquet.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (bouquet == null)
+		{
+			return NotFound();
+		}
+		_context.Bouquet.Remove(bouquet);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	[HttpGet]
+	public async Task<IActionResult> Index(){
+	 	return View(await _context.Bouquet.ToListAsync());
 	}
 	public BouquetController(RepositoryDbContext context) { _context = context; }
 

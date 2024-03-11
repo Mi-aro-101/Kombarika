@@ -12,25 +12,58 @@ public class PersonnelController : Controller {
 	private readonly ILogger<PersonnelController> _logger;
 
 	[HttpPost]
-	public ActionResult<Personnel> save([FromBody] Personnel personnel){
+	public async Task<IActionResult> Create([] Personnel personnel){
 	 	_context.personnel.Add(personnel);
-		_context.SaveChanges();
-		return Ok();
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
 	}
-	[HttpPut]
-	public ActionResult<Personnel> update([FromBody] Personnel personnel){
-	 	var temp = personnel;
-		_context.SaveChanges();
-		return Ok();
+	public IActionResult Create()
+	{
+		#foreignKey#
+		return View();
 	}
-	[HttpDelete]
-	public void delete([FromBody] Personnel personnel){
-	 	_context.Personnel.Remove(personnel);
-		_context.SaveChanges();	return Ok();
+	[HttpPost]
+	public async Task<IActionResult> Edit([] Personnel personnel){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		_context.Personnel.Update(personnel);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	public IActionResult Edit()
+	{
+		if (id == null)
+		{
+			return NotFound();
+		}
+		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (#object# == null)
+		{
+			return NotFound();
+		}
+		#foreignKey#
+		return View(#object#);
 	}
 	[HttpGet]
-	public ActionResult<IEnumerable<Personnel>> findAll(){
-	 	return Ok(_context.Personnel.ToList());
+	public async Task<IActionResult> Delete([] Personnel personnel){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		var personnel = await _context.Personnel.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (personnel == null)
+		{
+			return NotFound();
+		}
+		_context.Personnel.Remove(personnel);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	[HttpGet]
+	public async Task<IActionResult> Index(){
+	 	return View(await _context.Personnel.ToListAsync());
 	}
 	public PersonnelController(RepositoryDbContext context) { _context = context; }
 

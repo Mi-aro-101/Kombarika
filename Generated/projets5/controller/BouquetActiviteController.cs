@@ -12,25 +12,58 @@ public class BouquetActiviteController : Controller {
 	private readonly ILogger<BouquetActiviteController> _logger;
 
 	[HttpPost]
-	public ActionResult<BouquetActivite> save([FromBody] BouquetActivite bouquetActivite){
+	public async Task<IActionResult> Create([] BouquetActivite bouquetActivite){
 	 	_context.bouquetActivite.Add(bouquetActivite);
-		_context.SaveChanges();
-		return Ok();
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
 	}
-	[HttpPut]
-	public ActionResult<BouquetActivite> update([FromBody] BouquetActivite bouquetActivite){
-	 	var temp = bouquetActivite;
-		_context.SaveChanges();
-		return Ok();
+	public IActionResult Create()
+	{
+		#foreignKey#
+		return View();
 	}
-	[HttpDelete]
-	public void delete([FromBody] BouquetActivite bouquetActivite){
-	 	_context.BouquetActivite.Remove(bouquetActivite);
-		_context.SaveChanges();	return Ok();
+	[HttpPost]
+	public async Task<IActionResult> Edit([] BouquetActivite bouquetActivite){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		_context.BouquetActivite.Update(bouquetActivite);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	public IActionResult Edit()
+	{
+		if (id == null)
+		{
+			return NotFound();
+		}
+		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (#object# == null)
+		{
+			return NotFound();
+		}
+		#foreignKey#
+		return View(#object#);
 	}
 	[HttpGet]
-	public ActionResult<IEnumerable<BouquetActivite>> findAll(){
-	 	return Ok(_context.BouquetActivite.ToList());
+	public async Task<IActionResult> Delete([] BouquetActivite bouquetActivite){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		var bouquetActivite = await _context.BouquetActivite.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (bouquetActivite == null)
+		{
+			return NotFound();
+		}
+		_context.BouquetActivite.Remove(bouquetActivite);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	[HttpGet]
+	public async Task<IActionResult> Index(){
+	 	return View(await _context.BouquetActivite.ToListAsync());
 	}
 	public BouquetActiviteController(RepositoryDbContext context) { _context = context; }
 

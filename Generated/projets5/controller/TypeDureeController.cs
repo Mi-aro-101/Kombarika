@@ -12,25 +12,58 @@ public class TypeDureeController : Controller {
 	private readonly ILogger<TypeDureeController> _logger;
 
 	[HttpPost]
-	public ActionResult<TypeDuree> save([FromBody] TypeDuree typeDuree){
+	public async Task<IActionResult> Create([] TypeDuree typeDuree){
 	 	_context.typeDuree.Add(typeDuree);
-		_context.SaveChanges();
-		return Ok();
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
 	}
-	[HttpPut]
-	public ActionResult<TypeDuree> update([FromBody] TypeDuree typeDuree){
-	 	var temp = typeDuree;
-		_context.SaveChanges();
-		return Ok();
+	public IActionResult Create()
+	{
+		#foreignKey#
+		return View();
 	}
-	[HttpDelete]
-	public void delete([FromBody] TypeDuree typeDuree){
-	 	_context.TypeDuree.Remove(typeDuree);
-		_context.SaveChanges();	return Ok();
+	[HttpPost]
+	public async Task<IActionResult> Edit([] TypeDuree typeDuree){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		_context.TypeDuree.Update(typeDuree);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	public IActionResult Edit()
+	{
+		if (id == null)
+		{
+			return NotFound();
+		}
+		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (#object# == null)
+		{
+			return NotFound();
+		}
+		#foreignKey#
+		return View(#object#);
 	}
 	[HttpGet]
-	public ActionResult<IEnumerable<TypeDuree>> findAll(){
-	 	return Ok(_context.TypeDuree.ToList());
+	public async Task<IActionResult> Delete([] TypeDuree typeDuree){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		var typeDuree = await _context.TypeDuree.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (typeDuree == null)
+		{
+			return NotFound();
+		}
+		_context.TypeDuree.Remove(typeDuree);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	[HttpGet]
+	public async Task<IActionResult> Index(){
+	 	return View(await _context.TypeDuree.ToListAsync());
 	}
 	public TypeDureeController(RepositoryDbContext context) { _context = context; }
 

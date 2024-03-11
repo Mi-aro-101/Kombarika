@@ -12,25 +12,58 @@ public class ReservationController : Controller {
 	private readonly ILogger<ReservationController> _logger;
 
 	[HttpPost]
-	public ActionResult<Reservation> save([FromBody] Reservation reservation){
+	public async Task<IActionResult> Create([] Reservation reservation){
 	 	_context.reservation.Add(reservation);
-		_context.SaveChanges();
-		return Ok();
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
 	}
-	[HttpPut]
-	public ActionResult<Reservation> update([FromBody] Reservation reservation){
-	 	var temp = reservation;
-		_context.SaveChanges();
-		return Ok();
+	public IActionResult Create()
+	{
+		#foreignKey#
+		return View();
 	}
-	[HttpDelete]
-	public void delete([FromBody] Reservation reservation){
-	 	_context.Reservation.Remove(reservation);
-		_context.SaveChanges();	return Ok();
+	[HttpPost]
+	public async Task<IActionResult> Edit([] Reservation reservation){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		_context.Reservation.Update(reservation);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	public IActionResult Edit()
+	{
+		if (id == null)
+		{
+			return NotFound();
+		}
+		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (#object# == null)
+		{
+			return NotFound();
+		}
+		#foreignKey#
+		return View(#object#);
 	}
 	[HttpGet]
-	public ActionResult<IEnumerable<Reservation>> findAll(){
-	 	return Ok(_context.Reservation.ToList());
+	public async Task<IActionResult> Delete([] Reservation reservation){
+	 	if (id == null)
+		{
+			return NotFound();
+		}
+		var reservation = await _context.Reservation.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		if (reservation == null)
+		{
+			return NotFound();
+		}
+		_context.Reservation.Remove(reservation);
+		await _context.SaveChangesAsync();
+		return RedirectToAction(nameof(Index));
+	}
+	[HttpGet]
+	public async Task<IActionResult> Index(){
+	 	return View(await _context.Reservation.ToListAsync());
 	}
 	public ReservationController(RepositoryDbContext context) { _context = context; }
 

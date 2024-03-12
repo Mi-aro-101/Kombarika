@@ -19,13 +19,18 @@
                 "dotnet" : {
                     "template" : "Template.code",
                     "repository": "Template.code",
-                    "listSyntax" : "IEnumerable<?>",
+                    "listSyntax" : "ICollection<?>",
                     "isOneRepository":"true",
                     "imports": {
                         "controller":[
                             "System.Diagnostics",
+                            "System.Linq",
+                            "System.Collections.Generic",
+                            "System.Threading.Tasks",
                             "Microsoft.AspNetCore.Mvc",
+                            "Microsoft.AspNetCore.Mvc.Rendering",
                             "packageName.RepositoryDbContext",
+                            "Microsoft.EntityFrameworkCore",
                             "entity.?"
                         ],
                         "entity":[
@@ -77,7 +82,7 @@
                             "content": "if (id == null)\n{\n\treturn NotFound();\n}\n_context.?.Update(#object#);\nawait _context.SaveChangesAsync();\nreturn RedirectToAction(nameof(Index));",
                             "function": "Edit",
                             "parameter": "#typePrimaryKey##nullable# id, [Bind(#fields#)] ? #object#",
-                            "view": "\n\tpublic IActionResult Edit()\n\t{\n\t\tif (id == null)\n\t\t{\n\t\t\treturn NotFound();\n\t\t}\n\t\tvar #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);\n\t\tif (#object# == null)\n\t\t{\n\t\t\treturn NotFound();\n\t\t}\n\t\t#foreignKey#\n\t\treturn View(#object#);\n\t}"
+                            "view": "\n\tpublic IActionResult Edit(#typePrimaryKey##nullable# id)\n\t{\n\t\tif (id == null)\n\t\t{\n\t\t\treturn NotFound();\n\t\t}\n\t\tvar #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);\n\t\tif (#object# == null)\n\t\t{\n\t\t\treturn NotFound();\n\t\t}\n\t\t#foreignKey#\n\t\treturn View(#object#);\n\t}"
                         },
                         "save": {
                             "content": "_context.?.Add(#object#);\nawait _context.SaveChangesAsync();\nreturn RedirectToAction(nameof(Index));",
@@ -88,7 +93,7 @@
                     },
                     "controllerProperty" : {
                         "path": "Route(\"?\")",
-                        "foreignKey": "ViewData[\"foreignKeyField\"] = new SelectList(_context.foreignObject, \"foreignPrimaryKeyField\", \"foreignPrimaryKeyField\");",
+                        "passValueToView": "ViewData[\"#foreignKeyField#\"] = await _context.#foreignObject#.ToListAsync();",
                         "get": "HttpGet",
                         "post": "HttpPost",
                         "put": "HttpPost",

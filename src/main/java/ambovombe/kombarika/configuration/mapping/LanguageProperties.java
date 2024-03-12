@@ -14,9 +14,10 @@ import java.util.HashMap;
  *
  * @author Mamisoa
  */
-@Setter @Getter
+@Setter
+@Getter
 public class LanguageProperties {
-    //GETTERS & SETTERS
+    // GETTERS & SETTERS
     private String name;
     private String importSyntax;
     private String packageSyntax;
@@ -30,9 +31,11 @@ public class LanguageProperties {
     private String methodSyntax;
     private String endOfInstruction;
     private String constructorSyntax;
+    private String nullable;
     private HashMap<String, FrameworkProperties> frameworks;
 
-    //CONSTRUCTOR
-    public LanguageProperties(){}
+    // CONSTRUCTOR
+    public LanguageProperties() {
+    }
 
 }

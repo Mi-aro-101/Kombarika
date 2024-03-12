@@ -1,8 +1,13 @@
 namespace projets5.controller;
 
 using System.Diagnostics;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using projets5.repository.RepositoryDbContext;
+using Microsoft.EntityFrameworkCore;
 using projets5.entity.Mouvement;
 
 [Controller]
@@ -12,18 +17,20 @@ public class MouvementController : Controller {
 	private readonly ILogger<MouvementController> _logger;
 
 	[HttpPost]
-	public async Task<IActionResult> Create([] Mouvement mouvement){
-	 	_context.mouvement.Add(mouvement);
+	public async Task<IActionResult> Create([Bind("activiteIdMouvement,quantiteEntree,quantiteSortie,dateHeureMouvement,mouvementId")] Mouvement mouvement){
+	 	_context.Mouvement.Add(mouvement);
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
 	public IActionResult Create()
 	{
-		#foreignKey#
+		
+		ViewData["activiteIdMouvement"] = await _context.Activite.ToListAsync();
+		
 		return View();
 	}
 	[HttpPost]
-	public async Task<IActionResult> Edit([] Mouvement mouvement){
+	public async Task<IActionResult> Edit(int? id, [Bind("activiteIdMouvement,quantiteEntree,quantiteSortie,dateHeureMouvement,mouvementId")] Mouvement mouvement){
 	 	if (id == null)
 		{
 			return NotFound();
@@ -32,27 +39,29 @@ public class MouvementController : Controller {
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
-	public IActionResult Edit()
+	public IActionResult Edit(int? id)
 	{
 		if (id == null)
 		{
 			return NotFound();
 		}
-		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
-		if (#object# == null)
+		var mouvement = await _context.Mouvement.FirstOrDefaultAsync(m => m.mouvementId == id);
+		if (mouvement == null)
 		{
 			return NotFound();
 		}
-		#foreignKey#
-		return View(#object#);
+		
+		ViewData["activiteIdMouvement"] = await _context.Activite.ToListAsync();
+		
+		return View(mouvement);
 	}
 	[HttpGet]
-	public async Task<IActionResult> Delete([] Mouvement mouvement){
+	public async Task<IActionResult> Delete(int? id){
 	 	if (id == null)
 		{
 			return NotFound();
 		}
-		var mouvement = await _context.Mouvement.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		var mouvement = await _context.Mouvement.FirstOrDefaultAsync(m => m.mouvementId == id);
 		if (mouvement == null)
 		{
 			return NotFound();

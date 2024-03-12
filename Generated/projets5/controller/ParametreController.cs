@@ -1,8 +1,13 @@
 namespace projets5.controller;
 
 using System.Diagnostics;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using projets5.repository.RepositoryDbContext;
+using Microsoft.EntityFrameworkCore;
 using projets5.entity.Parametre;
 
 [Controller]
@@ -12,18 +17,18 @@ public class ParametreController : Controller {
 	private readonly ILogger<ParametreController> _logger;
 
 	[HttpPost]
-	public async Task<IActionResult> Create([] Parametre parametre){
-	 	_context.parametre.Add(parametre);
+	public async Task<IActionResult> Create([Bind("parametreId,valeur,libelle")] Parametre parametre){
+	 	_context.Parametre.Add(parametre);
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
 	public IActionResult Create()
 	{
-		#foreignKey#
+		
 		return View();
 	}
 	[HttpPost]
-	public async Task<IActionResult> Edit([] Parametre parametre){
+	public async Task<IActionResult> Edit(int? id, [Bind("parametreId,valeur,libelle")] Parametre parametre){
 	 	if (id == null)
 		{
 			return NotFound();
@@ -32,27 +37,27 @@ public class ParametreController : Controller {
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
-	public IActionResult Edit()
+	public IActionResult Edit(int? id)
 	{
 		if (id == null)
 		{
 			return NotFound();
 		}
-		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
-		if (#object# == null)
+		var parametre = await _context.Parametre.FirstOrDefaultAsync(m => m.parametreId == id);
+		if (parametre == null)
 		{
 			return NotFound();
 		}
-		#foreignKey#
-		return View(#object#);
+		
+		return View(parametre);
 	}
 	[HttpGet]
-	public async Task<IActionResult> Delete([] Parametre parametre){
+	public async Task<IActionResult> Delete(int? id){
 	 	if (id == null)
 		{
 			return NotFound();
 		}
-		var parametre = await _context.Parametre.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		var parametre = await _context.Parametre.FirstOrDefaultAsync(m => m.parametreId == id);
 		if (parametre == null)
 		{
 			return NotFound();

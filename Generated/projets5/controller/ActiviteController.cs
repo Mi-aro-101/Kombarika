@@ -1,8 +1,13 @@
 namespace projets5.controller;
 
 using System.Diagnostics;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using projets5.repository.RepositoryDbContext;
+using Microsoft.EntityFrameworkCore;
 using projets5.entity.Activite;
 
 [Controller]
@@ -12,18 +17,18 @@ public class ActiviteController : Controller {
 	private readonly ILogger<ActiviteController> _logger;
 
 	[HttpPost]
-	public async Task<IActionResult> Create([] Activite activite){
-	 	_context.activite.Add(activite);
+	public async Task<IActionResult> Create([Bind("activiteId,nomActivite,prixUnitaire")] Activite activite){
+	 	_context.Activite.Add(activite);
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
 	public IActionResult Create()
 	{
-		#foreignKey#
+		
 		return View();
 	}
 	[HttpPost]
-	public async Task<IActionResult> Edit([] Activite activite){
+	public async Task<IActionResult> Edit(int? id, [Bind("activiteId,nomActivite,prixUnitaire")] Activite activite){
 	 	if (id == null)
 		{
 			return NotFound();
@@ -32,27 +37,27 @@ public class ActiviteController : Controller {
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
-	public IActionResult Edit()
+	public IActionResult Edit(int? id)
 	{
 		if (id == null)
 		{
 			return NotFound();
 		}
-		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
-		if (#object# == null)
+		var activite = await _context.Activite.FirstOrDefaultAsync(m => m.activiteId == id);
+		if (activite == null)
 		{
 			return NotFound();
 		}
-		#foreignKey#
-		return View(#object#);
+		
+		return View(activite);
 	}
 	[HttpGet]
-	public async Task<IActionResult> Delete([] Activite activite){
+	public async Task<IActionResult> Delete(int? id){
 	 	if (id == null)
 		{
 			return NotFound();
 		}
-		var activite = await _context.Activite.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		var activite = await _context.Activite.FirstOrDefaultAsync(m => m.activiteId == id);
 		if (activite == null)
 		{
 			return NotFound();

@@ -1,8 +1,13 @@
 namespace projets5.controller;
 
 using System.Diagnostics;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using projets5.repository.RepositoryDbContext;
+using Microsoft.EntityFrameworkCore;
 using projets5.entity.Reservation;
 
 [Controller]
@@ -12,18 +17,22 @@ public class ReservationController : Controller {
 	private readonly ILogger<ReservationController> _logger;
 
 	[HttpPost]
-	public async Task<IActionResult> Create([] Reservation reservation){
-	 	_context.reservation.Add(reservation);
+	public async Task<IActionResult> Create([Bind("reservationId,nbsPersonne,montantTotal,dateHeureReservation,clientIdReservation,voyageIdReservation")] Reservation reservation){
+	 	_context.Reservation.Add(reservation);
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
 	public IActionResult Create()
 	{
-		#foreignKey#
+		
+		ViewData["clientIdReservation"] = await _context.Client.ToListAsync();
+		
+		ViewData["voyageIdReservation"] = await _context.Voyage.ToListAsync();
+		
 		return View();
 	}
 	[HttpPost]
-	public async Task<IActionResult> Edit([] Reservation reservation){
+	public async Task<IActionResult> Edit(int? id, [Bind("reservationId,nbsPersonne,montantTotal,dateHeureReservation,clientIdReservation,voyageIdReservation")] Reservation reservation){
 	 	if (id == null)
 		{
 			return NotFound();
@@ -32,27 +41,31 @@ public class ReservationController : Controller {
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
-	public IActionResult Edit()
+	public IActionResult Edit(int? id)
 	{
 		if (id == null)
 		{
 			return NotFound();
 		}
-		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
-		if (#object# == null)
+		var reservation = await _context.Reservation.FirstOrDefaultAsync(m => m.reservationId == id);
+		if (reservation == null)
 		{
 			return NotFound();
 		}
-		#foreignKey#
-		return View(#object#);
+		
+		ViewData["clientIdReservation"] = await _context.Client.ToListAsync();
+		
+		ViewData["voyageIdReservation"] = await _context.Voyage.ToListAsync();
+		
+		return View(reservation);
 	}
 	[HttpGet]
-	public async Task<IActionResult> Delete([] Reservation reservation){
+	public async Task<IActionResult> Delete(int? id){
 	 	if (id == null)
 		{
 			return NotFound();
 		}
-		var reservation = await _context.Reservation.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		var reservation = await _context.Reservation.FirstOrDefaultAsync(m => m.reservationId == id);
 		if (reservation == null)
 		{
 			return NotFound();

@@ -1,8 +1,13 @@
 namespace projets5.controller;
 
 using System.Diagnostics;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using projets5.repository.RepositoryDbContext;
+using Microsoft.EntityFrameworkCore;
 using projets5.entity.Bouquet;
 
 [Controller]
@@ -12,18 +17,18 @@ public class BouquetController : Controller {
 	private readonly ILogger<BouquetController> _logger;
 
 	[HttpPost]
-	public async Task<IActionResult> Create([] Bouquet bouquet){
-	 	_context.bouquet.Add(bouquet);
+	public async Task<IActionResult> Create([Bind("bouquetId,nomBouquet,heureTravail")] Bouquet bouquet){
+	 	_context.Bouquet.Add(bouquet);
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
 	public IActionResult Create()
 	{
-		#foreignKey#
+		
 		return View();
 	}
 	[HttpPost]
-	public async Task<IActionResult> Edit([] Bouquet bouquet){
+	public async Task<IActionResult> Edit(int? id, [Bind("bouquetId,nomBouquet,heureTravail")] Bouquet bouquet){
 	 	if (id == null)
 		{
 			return NotFound();
@@ -32,27 +37,27 @@ public class BouquetController : Controller {
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
-	public IActionResult Edit()
+	public IActionResult Edit(int? id)
 	{
 		if (id == null)
 		{
 			return NotFound();
 		}
-		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
-		if (#object# == null)
+		var bouquet = await _context.Bouquet.FirstOrDefaultAsync(m => m.bouquetId == id);
+		if (bouquet == null)
 		{
 			return NotFound();
 		}
-		#foreignKey#
-		return View(#object#);
+		
+		return View(bouquet);
 	}
 	[HttpGet]
-	public async Task<IActionResult> Delete([] Bouquet bouquet){
+	public async Task<IActionResult> Delete(int? id){
 	 	if (id == null)
 		{
 			return NotFound();
 		}
-		var bouquet = await _context.Bouquet.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		var bouquet = await _context.Bouquet.FirstOrDefaultAsync(m => m.bouquetId == id);
 		if (bouquet == null)
 		{
 			return NotFound();

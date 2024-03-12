@@ -148,7 +148,6 @@ public class Entity {
         public String getEncapsulation(HashMap<String, String> columns, HashMap<String, String> foreignKeys) {
                 String rep = "";
                 for (Map.Entry<String, String> set : columns.entrySet()) {
-
                         String temp = foreignKeys.get(set.getKey());
                         if (temp != null) {
                                 rep += this.getLanguageProperties().getEncapsulation()

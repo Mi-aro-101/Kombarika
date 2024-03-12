@@ -1,8 +1,13 @@
 namespace projets5.controller;
 
 using System.Diagnostics;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using projets5.repository.RepositoryDbContext;
+using Microsoft.EntityFrameworkCore;
 using projets5.entity.TypeDuree;
 
 [Controller]
@@ -12,18 +17,18 @@ public class TypeDureeController : Controller {
 	private readonly ILogger<TypeDureeController> _logger;
 
 	[HttpPost]
-	public async Task<IActionResult> Create([] TypeDuree typeDuree){
-	 	_context.typeDuree.Add(typeDuree);
+	public async Task<IActionResult> Create([Bind("nomTypeDuree,prixDuree,typeDureeId,nombreJour")] TypeDuree typeDuree){
+	 	_context.TypeDuree.Add(typeDuree);
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
 	public IActionResult Create()
 	{
-		#foreignKey#
+		
 		return View();
 	}
 	[HttpPost]
-	public async Task<IActionResult> Edit([] TypeDuree typeDuree){
+	public async Task<IActionResult> Edit(int? id, [Bind("nomTypeDuree,prixDuree,typeDureeId,nombreJour")] TypeDuree typeDuree){
 	 	if (id == null)
 		{
 			return NotFound();
@@ -32,27 +37,27 @@ public class TypeDureeController : Controller {
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
-	public IActionResult Edit()
+	public IActionResult Edit(int? id)
 	{
 		if (id == null)
 		{
 			return NotFound();
 		}
-		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
-		if (#object# == null)
+		var typeDuree = await _context.TypeDuree.FirstOrDefaultAsync(m => m.typeDureeId == id);
+		if (typeDuree == null)
 		{
 			return NotFound();
 		}
-		#foreignKey#
-		return View(#object#);
+		
+		return View(typeDuree);
 	}
 	[HttpGet]
-	public async Task<IActionResult> Delete([] TypeDuree typeDuree){
+	public async Task<IActionResult> Delete(int? id){
 	 	if (id == null)
 		{
 			return NotFound();
 		}
-		var typeDuree = await _context.TypeDuree.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		var typeDuree = await _context.TypeDuree.FirstOrDefaultAsync(m => m.typeDureeId == id);
 		if (typeDuree == null)
 		{
 			return NotFound();

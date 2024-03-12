@@ -3,9 +3,11 @@ package ambovombe.kombarika.configuration.mapping;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class ControllerProperty {
     String path;
+    String passValueToView;
     String get;
     String post;
     String put;

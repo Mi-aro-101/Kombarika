@@ -1,8 +1,13 @@
 namespace projets5.controller;
 
 using System.Diagnostics;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using projets5.repository.RepositoryDbContext;
+using Microsoft.EntityFrameworkCore;
 using projets5.entity.BouquetActivite;
 
 [Controller]
@@ -12,18 +17,22 @@ public class BouquetActiviteController : Controller {
 	private readonly ILogger<BouquetActiviteController> _logger;
 
 	[HttpPost]
-	public async Task<IActionResult> Create([] BouquetActivite bouquetActivite){
-	 	_context.bouquetActivite.Add(bouquetActivite);
+	public async Task<IActionResult> Create([Bind("activiteIdBouquetActivite,bouquetIdBouquetActivite")] BouquetActivite bouquetActivite){
+	 	_context.BouquetActivite.Add(bouquetActivite);
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
 	public IActionResult Create()
 	{
-		#foreignKey#
+		
+		ViewData["activiteIdBouquetActivite"] = await _context.Activite.ToListAsync();
+		
+		ViewData["bouquetIdBouquetActivite"] = await _context.Bouquet.ToListAsync();
+		
 		return View();
 	}
 	[HttpPost]
-	public async Task<IActionResult> Edit([] BouquetActivite bouquetActivite){
+	public async Task<IActionResult> Edit(int? id, [Bind("activiteIdBouquetActivite,bouquetIdBouquetActivite")] BouquetActivite bouquetActivite){
 	 	if (id == null)
 		{
 			return NotFound();
@@ -32,27 +41,31 @@ public class BouquetActiviteController : Controller {
 		await _context.SaveChangesAsync();
 		return RedirectToAction(nameof(Index));
 	}
-	public IActionResult Edit()
+	public IActionResult Edit(int? id)
 	{
 		if (id == null)
 		{
 			return NotFound();
 		}
-		var #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
-		if (#object# == null)
+		var bouquetActivite = await _context.BouquetActivite.FirstOrDefaultAsync(m => m. == id);
+		if (bouquetActivite == null)
 		{
 			return NotFound();
 		}
-		#foreignKey#
-		return View(#object#);
+		
+		ViewData["activiteIdBouquetActivite"] = await _context.Activite.ToListAsync();
+		
+		ViewData["bouquetIdBouquetActivite"] = await _context.Bouquet.ToListAsync();
+		
+		return View(bouquetActivite);
 	}
 	[HttpGet]
-	public async Task<IActionResult> Delete([] BouquetActivite bouquetActivite){
+	public async Task<IActionResult> Delete(int? id){
 	 	if (id == null)
 		{
 			return NotFound();
 		}
-		var bouquetActivite = await _context.BouquetActivite.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);
+		var bouquetActivite = await _context.BouquetActivite.FirstOrDefaultAsync(m => m. == id);
 		if (bouquetActivite == null)
 		{
 			return NotFound();

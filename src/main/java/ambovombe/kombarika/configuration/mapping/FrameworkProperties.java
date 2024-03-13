@@ -10,7 +10,8 @@ import java.io.File;
 /**
  * @author rakharrs
  */
-@Getter @Setter
+@Getter
+@Setter
 public class FrameworkProperties {
     String template;
     String repository;
@@ -23,14 +24,15 @@ public class FrameworkProperties {
     RepositoryProperty repositoryProperty;
     boolean init = false;
 
-    public FrameworkProperties(){}
+    public FrameworkProperties() {
+    }
 
-    public String getTemplatePath(){
+    public String getTemplatePath() {
         return Misc.getSourceTemplateLocation() + File.separator + this.template;
     }
 
-    public String getTemplate(){
-        if(!init){
+    public String getTemplate() {
+        if (!init) {
             String path = getTemplatePath();
             try {
                 setTemplate(FileUtility.readOneFile(path));

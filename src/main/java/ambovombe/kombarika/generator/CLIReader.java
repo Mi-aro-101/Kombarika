@@ -14,7 +14,7 @@ public class CLIReader {
     String lang;
     String table;
 
-    //GETTERS AND SETTERS
+    // GETTERS AND SETTERS
     public String getPath() {
         return path;
     }
@@ -46,27 +46,26 @@ public class CLIReader {
     public void setTable(String table) {
         this.table = table;
     }
-    
-    //METHODS
-    public void getData(String[] str) throws Exception{
-        if(!str[0].equals("generate"))
+
+    // METHODS
+    public void getData(String[] str) throws Exception {
+        if (!str[0].equals("generate"))
             throw new Exception("Wrong syntax");
-        else if(str[0].equals("exit"))
+        else if (str[0].equals("exit"))
             throw new Exception("Farewell");
-        for(int i = 0; i < str.length; i++){
-            if(str[i].equals("-p")){
-                this.setPackageName(str[i+1]);
+        for (int i = 0; i < str.length; i++) {
+            if (str[i].equals("-p")) {
+                this.setPackageName(str[i + 1]);
             }
-            if(str[i].equals("-t")){
-                this.setTable(str[i+1]);
+            if (str[i].equals("-t")) {
+                this.setTable(str[i + 1]);
             }
-            if(str[i].equals("-path")){
-                this.setPath(str[i+1]);
+            if (str[i].equals("-path")) {
+                this.setPath(str[i + 1]);
             }
-            if(str[i].equals("-l")){
-                this.setLang(str[i+1].toLowerCase());
+            if (str[i].equals("-l")) {
+                this.setLang(str[i + 1].toLowerCase());
             }
         }
     }
 }
-

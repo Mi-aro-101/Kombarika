@@ -7,7 +7,8 @@ import lombok.Setter;
 
 import java.util.HashMap;
 
-@Getter @Setter
+@Getter
+@Setter
 public class TypeProperties extends Configuration {
     HashMap<String, TypeMapping> listProperties;
 

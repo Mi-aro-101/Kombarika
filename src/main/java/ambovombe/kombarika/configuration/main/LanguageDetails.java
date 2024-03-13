@@ -5,7 +5,6 @@ package ambovombe.kombarika.configuration.main;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-
 import ambovombe.kombarika.configuration.Configuration;
 import ambovombe.kombarika.configuration.mapping.LanguageProperties;
 
@@ -18,7 +17,7 @@ import java.util.HashMap;
 public class LanguageDetails extends Configuration {
     HashMap<String, LanguageProperties> languages;
 
-    //GETTERS & SETTERS
+    // GETTERS & SETTERS
 
     public HashMap<String, LanguageProperties> getLanguages() {
         return languages;
@@ -28,12 +27,12 @@ public class LanguageDetails extends Configuration {
         this.languages = languages;
     }
 
-    //CONSTRUCTOR
-    public LanguageDetails(){}
-
+    // CONSTRUCTOR
+    public LanguageDetails() {
+    }
 
     @Override
-    public void init() throws Exception{
+    public void init() throws Exception {
         setJsonPath("languageDetails.json");
         LanguageDetails languageDetails = this.read();
         setLanguages(languageDetails.getLanguages());

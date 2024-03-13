@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class TypeMapping {
     HashMap<String, TypeProperty> listMapping;
 
-    //GETTERS & SETTERS
+    // GETTERS & SETTERS
 
     public HashMap<String, TypeProperty> getListMapping() {
         return listMapping;
@@ -22,8 +22,8 @@ public class TypeMapping {
     public void setListMapping(HashMap<String, TypeProperty> listMapping) {
         this.listMapping = listMapping;
     }
-    
-    
-    //CONSTRUCTOR
-    public TypeMapping(){}
+
+    // CONSTRUCTOR
+    public TypeMapping() {
+    }
 }

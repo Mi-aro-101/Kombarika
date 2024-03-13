@@ -8,33 +8,33 @@ public class Misc {
         return classLoader.getResource(name).getPath();
     }
 
-    public static String tabulate(String string){
+    public static String tabulate(String string) {
         string = "\t" + string;
         return string.replace("\n", "\n\t");
     }
 
-    public static String getTemplateLocation(){
+    public static String getTemplateLocation() {
         return currentLocation("template");
     }
 
-    public static String getSourceTemplateLocation(){
+    public static String getSourceTemplateLocation() {
         return getTemplateLocation() + File.separator + "sourceCode";
     }
 
-    public static String getViewTemplateLocation(){
+    public static String getViewTemplateLocation() {
         return getTemplateLocation() + File.separator + "view";
     }
 
-    public static String getConfigLocation(){
+    public static String getConfigLocation() {
         return currentLocation("conf");
     }
 
-    public static String getConnectionConfLocation(){
+    public static String getConnectionConfLocation() {
         String separator = File.separator;
         return getConfigLocation() + separator + "connection";
     }
 
-    public static String getGeneratorConfLocation(){
+    public static String getGeneratorConfLocation() {
         String separator = File.separator;
         return getConfigLocation() + separator + "generator";
     }

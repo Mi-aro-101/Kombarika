@@ -20,24 +20,26 @@ import java.util.HashMap;
 public class DbConnection {
     @Getter
     final static String confPath = "database.json";
-    @Getter @Setter
+    @Getter
+    @Setter
     String defaultConnection;
     @Getter
     String inUseConnection;
-    @Getter @Setter
+    @Getter
+    @Setter
     public boolean init = false;
     @Setter
     public Connection connection = null;
     @Getter
     private HashMap<String, DbProperties> listConnection;
-    //SETTERS & GETTERS
+    // SETTERS & GETTERS
 
     public void setListConnection(HashMap<String, DbProperties> listConnection) {
         this.listConnection = listConnection;
     }
 
-    //METHODS
-    public void read()throws Exception{
+    // METHODS
+    public void read() throws Exception {
         String separator = File.separator;
         String confFile = Misc.getConnectionConfLocation() + separator + getConfPath();
         DbConnection temp = JsonUtility.parseJson(confFile, this.getClass());
@@ -46,14 +48,16 @@ public class DbConnection {
         this.setInUseConnection(temp.getDefaultConnection());
     }
 
-    public void setInUseConnection(String inUseConnection){
-        if(getListConnection().get(inUseConnection) != null)
+    public void setInUseConnection(String inUseConnection) {
+        if (getListConnection().get(inUseConnection) != null)
             this.inUseConnection = inUseConnection;
-        else throw new IllegalArgumentException("There is no such connection : "+inUseConnection);
+        else
+            throw new IllegalArgumentException("There is no such connection : " + inUseConnection);
     }
 
-    public Connection createConnection(String connection)throws Exception{
-        if(!isInit()) init();
+    public Connection createConnection(String connection) throws Exception {
+        if (!isInit())
+            init();
         DbProperties prop = this.getListConnection().get(connection);
         return prop.connect();
     }
@@ -61,29 +65,33 @@ public class DbConnection {
     /**
      * connect to the database by changing
      * the connection property
+     * 
      * @author rakharrs
      * @return
      * @throws Exception
      */
-    public Connection connect()throws Exception{
-        if(!isInit()) init();
+    public Connection connect() throws Exception {
+        if (!isInit())
+            init();
         setConnection(createConnection(getInUseConnection()));
         return getConnection();
     }
 
-    public void init() throws Exception{
+    public void init() throws Exception {
         read();
         setInit(true);
     }
 
-    public Connection connect(String connection)throws Exception{
-        if(!isInit()) init();
+    public Connection connect(String connection) throws Exception {
+        if (!isInit())
+            init();
         setConnection(createConnection(connection));
         return getConnection();
     }
 
     /**
      * Check if the connection property is null or not
+     * 
      * @return
      * @throws Exception
      */
@@ -95,12 +103,14 @@ public class DbConnection {
      * get the connection property
      * if it is undefined -> create the property
      * by connecting to the database
+     * 
      * @author rakharrs
      * @return - connection property
      * @throws Exception
      */
-    public Connection getConnection() throws Exception{
-        if(this.connection == null) this.connect();
+    public Connection getConnection() throws Exception {
+        if (this.connection == null)
+            this.connect();
         return this.connection;
     }
 

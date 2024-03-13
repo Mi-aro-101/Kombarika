@@ -4,7 +4,6 @@ import ambovombe.kombarika.database.DbConnection;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.Map.Entry;
 
 import ambovombe.kombarika.configuration.mapping.*;
@@ -195,13 +194,48 @@ public class Controller {
         }
 
         public String findById(String table) throws Exception {
-                String res = "";
-                return res;
+                String body = "";
+                String primaryKeyType = "";
+                String fields = getFields(table);
+                String primaryKeyColumn = getPrimaryKey(table);
+                String args = "";
+                try {
+                        primaryKeyType = getPrimaryKeyType(table);
+                        primaryKeyType = this.typeMapping.getListMapping().get(primaryKeyType).getType();
+                } catch (Exception e) {
+                        primaryKeyType = "int";
+                }
+                args += this.crudMethod.getDelete().getParameter()
+                                .replace("#fields#", "\"" + fields + "\"")
+                                .replace("#typePrimaryKey#", primaryKeyType)
+                                .replace("#object#", ObjectUtility.formatToCamelCase(table))
+                                .replace("?", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)))
+                                .replace("#nullable#", languageProperties.getNullable());
+                body += Misc.tabulate(this.getCrudMethod().getFindById().getContent()
+                                .replace("#object#", ObjectUtility.formatToCamelCase(table))
+                                .replace("#primaryKeyField#", primaryKeyColumn)
+                                .replace("?", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table))));
+                String function = this.getLanguageProperties().getMethodSyntax()
+                                .replace("#name#", this.crudMethod.getFindById().getFunction())
+                                .replace("#type#",
+                                                this.getControllerProperty().getReturnType().replace("?",
+                                                                this.getFrameworkProperties().getListSyntax().replace(
+                                                                                "?",
+                                                                                ObjectUtility.capitalize(ObjectUtility
+                                                                                                .formatToCamelCase(
+                                                                                                                table)))))
+                                .replace("#arg#", args)
+                                .replace("#body#", body);
+                return Misc.tabulate(this.getLanguageProperties().getAnnotationSyntax().replace("?",
+                                this.getControllerProperty().getGet()
+                                                .replace("?", ObjectUtility.formatToCamelCase(table)))
+                                + "\n" + function);
         }
 
         public String getCrudMethods(String table) throws Exception {
                 StringBuilder stringBuilder = new StringBuilder();
                 String save = save(table);
+                String findById = findById(table);
                 String findAll = findAll(table);
                 String update = update(table);
                 String delete = delete(table);
@@ -212,6 +246,8 @@ public class Controller {
                 stringBuilder.append(delete);
                 stringBuilder.append("\n");
                 stringBuilder.append(findAll);
+                stringBuilder.append("\n");
+                stringBuilder.append(findById);
                 return stringBuilder.toString();
         }
 

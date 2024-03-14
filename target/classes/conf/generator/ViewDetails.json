@@ -70,16 +70,18 @@
         },
         "razor":{
             "isMultipleTemplate":true,
-            "inputInsert":"<div class=\"form-group\"> \n \t<label asp-for=\"#label#\" class=\"control-label\"></label> \n \t<input class=\"form-control\" asp-for=\"#name#\" >\n \t<span asp-validation-for=\"#name#\" class=\"text-danger\"></span></div>",
-            "inputUpdate":"<div class=\"form-group\"> \n \t<label asp-for=\"#label#\" class=\"control-label\"></label> \n \t<input class=\"form-control\" asp-for=\"#name#\" >\n \t<span asp-validation-for=\"#name#\" class=\"text-danger\"></span></div>",
+            "inputInsert":"<div class=\"form-group\"> \n \t\t\t\t\t<label asp-for=\"#name#\" class=\"control-label\"></label> \n\t\t\t\t\t<input class=\"form-control\" asp-for=\"#name#\" >\n\t\t\t\t\t<span asp-validation-for=\"#name#\" class=\"text-danger\"></span>\n\t\t\t\t</div>\n\t\t\t\t",
+            "inputUpdate":"<input type=\"hidden\" asp-for=\"#id#\" />",
             "templates":{
                 "Index":"razor/Index.txt",
                 "Delete":"razor/Delete.txt",
-                "CreateEdit":"razor/CreateEdit.txt"
+                "Create":"razor/Create.txt",
+                "Edit":"razor/Edit.txt"
             },
             "tableHeader":"\t<th> @Html.DisplayNameFor(model => model.#name#) </th>",
-            "tableValue":"\t<th> @Html.DisplayFor(modelItem => item.#name#) </th>",
-            "extension":"cshtml"
+            "tableValue":"\t<td> @Html.DisplayFor(modelItem => item.#name#) </td>",
+            "extension":"cshtml",
+            "select":"<div class=\"form-group\">\n\t\t\t\t\t<label asp-for=\"#name#\" class=\"control-label\"></label>\n\t\t\t\t\t<select asp-for=\"#name#\" class =\"form-control\" asp-items=\"ViewBag.#name#\"></select>\n\t\t\t\t</div>\n\t\t\t\t"
         }
     }
 }

@@ -296,11 +296,26 @@ public class View {
     		String directory,
     		String viewType,
     		String url,
-    		CodeGenerator codegen)throws Exception{
+    		CodeGenerator codegen,
+    		String modelPackage)throws Exception{
     	// Create directory for each table <=> class
     	crudViews = new CrudViewGenerator();
     	Map<String, String> dirLocations = this.generateViewsDirectory(path, table, directory, viewType, url, codegen);
-    	crudViews.generateCreatePage(this, table, url, dbconnection);
+    	// Get the body with all the variable replaced in Create view
+    	String bodyCreate = crudViews.generateCreatePage(this, table, url, dbconnection, modelPackage);
+    	// Get the body with all the variable replaced in Create view
+    	String bodyEdit = crudViews.generateEditPage(this, table, url, dbconnection, modelPackage);
+    	//Create page fotsiny aloha
+    	String newDirectory = dirLocations.get("directory");
+    	String fileNameCreate = "Create."+codegen.getViewDetails().getViews().get(viewType).getExtension();
+    	String updatedPath = dirLocations.get("path");
+    	
+    	FileUtility.generateFile(updatedPath+File.separator+newDirectory, fileNameCreate, bodyCreate);
+    	
+    	// Edit fotsiny indray
+    	String fileNameEdit = "Edit."+codegen.getViewDetails().getViews().get(viewType).getExtension();
+    	
+    	FileUtility.generateFile(updatedPath+File.separator+newDirectory, fileNameEdit, bodyEdit);
     }
     
     /*------------------------------------------------------------------*/

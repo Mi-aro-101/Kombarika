@@ -17,59 +17,59 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = MvcTest_Ef
 build_property.RootNamespace = MvcTest_Ef
-build_property.ProjectDir = E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\resources\conf\generator\MvcTest_Ef\
+build_property.ProjectDir = e:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\resources\conf\generator\MvcTest_Ef\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\resources\conf\generator\MvcTest_Ef
+build_property.MSBuildProjectDirectory = e:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\resources\conf\generator\MvcTest_Ef
 build_property._RazorSourceGeneratorDebug = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/Home/Index.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/Home/Privacy.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/MatierePremiere/Create.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/MatierePremiere/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0aWVyZVByZW1pZXJlXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/MatierePremiere/Delete.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/MatierePremiere/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0aWVyZVByZW1pZXJlXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/MatierePremiere/Details.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/MatierePremiere/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0aWVyZVByZW1pZXJlXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/MatierePremiere/Edit.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/MatierePremiere/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0aWVyZVByZW1pZXJlXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/MatierePremiere/Index.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/MatierePremiere/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWF0aWVyZVByZW1pZXJlXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/Shared/Error.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/Shared/_ValidationScriptsPartial.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/_ViewImports.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/_ViewStart.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/Shared/_Layout.cshtml]
+[e:/Information_and_Technology_University/Licence_3/Semestre_6/Mr_Naina/Kombarika/src/main/resources/conf/generator/MvcTest_Ef/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-npk7744tnz

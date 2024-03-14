@@ -26,4 +26,8 @@ public class GeneratorService {
     	
     	return primaryKey;
     }
+    
+    public static String toFirstUpperCase(String table) {
+    	return table.substring(0,1).toUpperCase()+table.substring(1, table.length());
+    }
 }

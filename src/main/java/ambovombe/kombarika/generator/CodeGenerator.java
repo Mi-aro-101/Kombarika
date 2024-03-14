@@ -221,15 +221,18 @@ public class CodeGenerator {
         String table,
         String directory, 
         String viewType,
-        String url
+        String url,
+        String packageName,
+        String entity
     ) throws Exception{
         View viewToGenerate = new View();
         viewToGenerate.setViewProperties(this.getViewDetails().getViews().get(viewType));
         viewToGenerate.setFrameworkProperties(this.getFrameworkProperties());
+        String modelPackage = packageName+"."+entity;
                 
         if(viewToGenerate.getViewProperties().isMultipleTemplate()){
             // Implement multiple view Template like razor generation
-        	viewToGenerate.createMultipleViewFile(table, dbConnection, path, directory, viewType, url, this);
+        	viewToGenerate.createMultipleViewFile(table, dbConnection, path, directory, viewType, url, this, modelPackage);
             return ;
         }
         else if(!viewToGenerate.getViewProperties().isMultipleTemplate()){
@@ -285,10 +288,12 @@ public class CodeGenerator {
         String[] tables,
         String view,
         String viewType,
-        String url
+        String url,
+        String packageName,
+        String entity
     )  throws Exception{
         for (String table : tables) {
-            generateView(path, table, view, viewType, url); 
+            generateView(path, table, view, viewType, url, packageName, entity); 
         }
     }
 
@@ -308,6 +313,6 @@ public class CodeGenerator {
         generateAllEntity(path, tables, packageName ,entity, framework);
         generateAllRepository(path, tables, packageName , entity, repository, framework);
         generateAllController(path, tables, packageName, entity, controller, repository, framework);  
-        generateAllView(viewPath, tables, view, viewType, url);    
+        generateAllView(viewPath, tables, view, viewType, url, packageName, entity);    
     }
 }

@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.lang.reflect.Type;
 
 /**
  *
@@ -15,11 +16,17 @@ import java.io.FileReader;
  */
 public class JsonUtility {
 
-    public static <T> T parseJson(String path, Class<?> objectClass) throws Exception{
+    public static <T> T parseJson(String path, Class<T> objectClass) throws Exception{
         // System.out.println(new FileReader(path));
-        JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)));
-        Object temp = new Gson().fromJson(reader, objectClass);
-        return (T)temp;
+    	T result = null;
+    	try (JsonReader reader = new JsonReader(new BufferedReader(new FileReader(path)))){
+    		result = new Gson().fromJson(reader, objectClass);
+		}catch(Exception e) {
+			e.printStackTrace();
+			e.getCause();
+		}
+    	
+        return result;
     }
 
     public static String encodeJson(Object object) throws Exception{

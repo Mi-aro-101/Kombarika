@@ -78,8 +78,8 @@
                 "Create":"razor/Create.txt",
                 "Edit":"razor/Edit.txt"
             },
-            "tableHeader":"\t<th> @Html.DisplayNameFor(model => model.#name#) </th>",
-            "tableValue":"\t<td> @Html.DisplayFor(modelItem => item.#name#) </td>",
+            "tableHeader":"<th> @Html.DisplayNameFor(model => model.#name#) </th>\n\t\t\t",
+            "tableValue":"<td> @Html.DisplayFor(modelItem => item.#name#) </td>\n\t\t\t",
             "extension":"cshtml",
             "select":"<div class=\"form-group\">\n\t\t\t\t\t<label asp-for=\"#name#\" class=\"control-label\"></label>\n\t\t\t\t\t<select asp-for=\"#name#\" class =\"form-control\" asp-items=\"ViewBag.#name#\"></select>\n\t\t\t\t</div>\n\t\t\t\t"
         }

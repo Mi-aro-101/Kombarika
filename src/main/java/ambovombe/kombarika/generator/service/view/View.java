@@ -301,21 +301,76 @@ public class View {
     	// Create directory for each table <=> class
     	crudViews = new CrudViewGenerator();
     	Map<String, String> dirLocations = this.generateViewsDirectory(path, table, directory, viewType, url, codegen);
-    	// Get the body with all the variable replaced in Create view
-    	String bodyCreate = crudViews.generateCreatePage(this, table, url, dbconnection, modelPackage);
-    	// Get the body with all the variable replaced in Create view
-    	String bodyEdit = crudViews.generateEditPage(this, table, url, dbconnection, modelPackage);
-    	//Create page fotsiny aloha
+    	
+    	this.generateCreateViewFile(dirLocations, table, dbconnection, path, directory, viewType, url, codegen, modelPackage);
+    	this.generateEditViewFile(dirLocations, table, dbconnection, path, directory, viewType, url, codegen, modelPackage);
+    	this.generateIndexViewFile(dirLocations, table, dbconnection, path, directory, viewType, url, codegen, modelPackage);
+    	this.generateDeleteViewFile(dirLocations, table, dbconnection, path, directory, viewType, url, codegen, modelPackage);
+    }
+    
+    public void generateCreateViewFile( 
+    		Map<String, String> dirLocations,
+    		String table, 
+    		DbConnection dbconnection,
+    		String path,
+    		String directory,
+    		String viewType,
+    		String url,
+    		CodeGenerator codegen,
+    		String modelPackage)throws Exception{
+    	String body = crudViews.generateCreatePage(this, table, url, dbconnection, modelPackage);
     	String newDirectory = dirLocations.get("directory");
-    	String fileNameCreate = "Create."+codegen.getViewDetails().getViews().get(viewType).getExtension();
+    	String fileName = "Create."+codegen.getViewDetails().getViews().get(viewType).getExtension();
     	String updatedPath = dirLocations.get("path");
-    	
-    	FileUtility.generateFile(updatedPath+File.separator+newDirectory, fileNameCreate, bodyCreate);
-    	
-    	// Edit fotsiny indray
-    	String fileNameEdit = "Edit."+codegen.getViewDetails().getViews().get(viewType).getExtension();
-    	
-    	FileUtility.generateFile(updatedPath+File.separator+newDirectory, fileNameEdit, bodyEdit);
+    	FileUtility.generateFile(updatedPath+File.separator+newDirectory, fileName, body);
+    }
+    
+    public void generateEditViewFile(Map<String, String> dirLocations,
+			String table, 
+			DbConnection dbconnection,
+			String path,
+			String directory,
+			String viewType,
+			String url,
+			CodeGenerator codegen,
+			String modelPackage)throws Exception{
+    	String body = crudViews.generateEditPage(this, table, url, dbconnection, modelPackage);
+    	String newDirectory = dirLocations.get("directory");
+    	String fileName = "Edit."+codegen.getViewDetails().getViews().get(viewType).getExtension();
+    	String updatedPath = dirLocations.get("path");
+    	FileUtility.generateFile(updatedPath+File.separator+newDirectory, fileName, body);
+    }
+    
+    public void generateIndexViewFile(Map<String, String> dirLocations,
+			String table, 
+			DbConnection dbconnection,
+			String path,
+			String directory,
+			String viewType,
+			String url,
+			CodeGenerator codegen,
+			String modelPackage)throws Exception{
+    	String body = crudViews.generateIndexPage(this, table, url, dbconnection, modelPackage);
+    	String newDirectory = dirLocations.get("directory");
+    	String fileName = "Index."+codegen.getViewDetails().getViews().get(viewType).getExtension();
+    	String updatedPath = dirLocations.get("path");
+    	FileUtility.generateFile(updatedPath+File.separator+newDirectory, fileName, body);
+    }
+    
+    public void generateDeleteViewFile(Map<String, String> dirLocations,
+			String table, 
+			DbConnection dbconnection,
+			String path,
+			String directory,
+			String viewType,
+			String url,
+			CodeGenerator codegen,
+			String modelPackage)throws Exception{
+    	String body = crudViews.generateDeletePage(this, table, url, dbconnection, modelPackage);
+    	String newDirectory = dirLocations.get("directory");
+    	String fileName = "Delete."+codegen.getViewDetails().getViews().get(viewType).getExtension();
+    	String updatedPath = dirLocations.get("path");
+    	FileUtility.generateFile(updatedPath+File.separator+newDirectory, fileName, body);
     }
     
     /*------------------------------------------------------------------*/

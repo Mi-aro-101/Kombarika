@@ -1,0 +1,24 @@
+{
+    "csharp:dotnet":{
+        "packageName":"",
+        "entity":"Models",
+        "controller":"Controllers",
+        "cliGeneration":"dotnet new mvc --name ?",
+        "view":"Views",
+        "viewType":"razor",
+        "name":"csharp:dotnet",
+        "framework":".NET",
+        "repository":"Models"
+    },
+    "java:spring-boot":{
+        "packageName":"org.example",
+        "entity":"entity",
+        "controller":"controller",
+        "cliGeneration":"",
+        "view":"view",
+        "viewType":"thymeleaf",
+        "name":"java:spring-boot",
+        "framework":"Spring",
+        "repository":"repository"
+    }
+}

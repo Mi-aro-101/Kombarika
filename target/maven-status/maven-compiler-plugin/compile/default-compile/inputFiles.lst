@@ -20,6 +20,7 @@ E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika
 E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\generator\utils\ObjectUtility.java
 E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\Test.java
 E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\configuration\main\LanguageDetails.java
+E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\generator\utils\CommandRunner.java
 E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\generator\service\DbService.java
 E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\properties\DatabaseType.java
 E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\generator\parser\FileUtility.java
@@ -31,5 +32,6 @@ E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika
 E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\configuration\main\ViewDetails.java
 E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\database\DbConnection.java
 E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\configuration\mapping\CrudMethod.java
+E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\utils\ProjectSetup.java
 E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\utils\Misc.java
 E:\Information_and_Technology_University\Licence_3\Semestre_6\Mr_Naina\Kombarika\src\main\java\ambovombe\kombarika\database\DbProperties.java

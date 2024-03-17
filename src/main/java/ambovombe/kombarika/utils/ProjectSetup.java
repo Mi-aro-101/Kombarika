@@ -113,13 +113,14 @@ public class ProjectSetup {
 	 * @throws Exception
 	 */
 	public void useExistingProject()throws Exception{
+		String projectPath = "";
 		JFileChooser fileChooser = new JFileChooser();
-		String projectPath = fileChooser.getSelectedFile().getAbsolutePath();
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnal = fileChooser.showOpenDialog(fileChooser);
+		if(returnal == JFileChooser.APPROVE_OPTION) {
+			projectPath = fileChooser.getSelectedFile().getAbsolutePath();			
+		}
 		this.setRoot(projectPath);
-	}
-	
-	public void watch(Process process)throws Exception{
-		
 	}
 	
 	public String getRoot() {

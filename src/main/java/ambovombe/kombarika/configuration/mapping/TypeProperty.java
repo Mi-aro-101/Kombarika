@@ -12,7 +12,7 @@ public class TypeProperty {
     private String type;
     private String packageName;
 
-    //SETTERS & GETTERS
+    // SETTERS & GETTERS
     public String getType() {
         return type;
     }
@@ -28,7 +28,8 @@ public class TypeProperty {
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
-    
-    //CONSTRUCTORS
-    public TypeProperty(){}
+
+    // CONSTRUCTORS
+    public TypeProperty() {
+    }
 }

@@ -7,28 +7,31 @@ import lombok.Setter;
 
 import java.io.File;
 
-
 /**
  * @author rakharrs
  */
 public abstract class Configuration {
-    @Getter @Setter
+    @Getter
+    @Setter
     String jsonPath;
 
     /**
      * Mamaky anle fichier de configuration
+     * 
      * @return anle configuration miantso
      * @throws Exception
      */
-    public <T> T read() throws Exception{
+    @SuppressWarnings("unchecked")
+    public <T> T read() throws Exception {
         String separator = File.separator;
         String path = Misc.getGeneratorConfLocation() + separator + jsonPath;
         Object temp = JsonUtility.parseJson(path, this.getClass());
-        return (T)temp;
+        return (T) temp;
     }
 
     /**
-     * need to be overrided<hr>
+     * need to be overrided
+     * <hr>
      * Need to be defined
      * For setting attribute of the configuration class
      */

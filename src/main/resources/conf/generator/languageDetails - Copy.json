@@ -7,13 +7,14 @@
             "openBracket":"{",
             "closeBracket":"}",
             "classSyntax":"public class",
-            "fieldSyntax":"Type field { get; set; }",
+            "fieldSyntax":"public Type field { get; set; }",
             "endOfInstruction":";",
             "annotationSyntax":"[?]",
             "constructorSyntax": "public ?(){}",
             "methodSyntax": "public #type# #name#(#arg#){\n #body#\n}",
             "encapsulation":"",
             "extension":"cs",
+            "nullable": "?",
             "frameworks" : {
                 "dotnet" : {
                     "template" : "Template.code",
@@ -24,7 +25,7 @@
                         "controller":[
                             "System.Diagnostics",
                             "Microsoft.AspNetCore.Mvc",
-                            "packageName.classNameContext",
+                            "packageName.RepositoryDbContext",
                             "entity.?"
                         ],
                         "entity":[
@@ -41,7 +42,7 @@
                         "autoIncrement":"",
                         "column":"Column(\"?\")",
                         "entity": "",
-                        "controller": "ApiController",
+                        "controller": "Controller",
                         "constraints":{
                             "primaryKey":"Key",
                             "foreignKey":{
@@ -54,29 +55,55 @@
                         }
                     },
                     "crudMethod" : {
-                        "findAll": "return Ok(_context.?.ToList());",
-                        "findById":"",
-                        "delete": "_context.?.Remove(#object#);\n_context.SaveChanges();\treturn Ok();",
-                        "update": "var temp = #object#;\n_context.SaveChanges();\nreturn Ok();",
-                        "save": "_context.?.Add(#object#);\n_context.SaveChanges();\nreturn Ok();"
+                        "findAll": {
+                            "content": "return View(await _context.?.ToListAsync());",
+                            "function": "Index",
+                            "parameter": "",
+                            "view": ""
+                        },
+                        "findById": {
+                            "content": "if (id == null)\n{\n\treturn NotFound();\n}\nvar #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);\nif (#object# == null)\n{\n\treturn NotFound();\n}\nreturn View(#object#);",
+                            "function": "Details",
+                            "parameter": "#typePrimaryKey##nullable# id",
+                            "view": ""
+                        },
+                        "delete": {
+                            "content": "if (id == null)\n{\n\treturn NotFound();\n}\nvar #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);\nif (#object# == null)\n{\n\treturn NotFound();\n}\n_context.?.Remove(#object#);\nawait _context.SaveChangesAsync();\nreturn RedirectToAction(nameof(Index));",
+                            "function": "Delete",
+                            "parameter": "#typePrimaryKey##nullable# id",
+                            "view": ""
+                        },
+                        "update": {
+                            "content": "if (id == null)\n{\n\treturn NotFound();\n}\nvar #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);\nif (#object# == null)\n{\n\treturn NotFound();\n}\n_context.?.Update(#object#);\nawait _context.SaveChangesAsync();\nreturn RedirectToAction(nameof(Index));",
+                            "function": "Edit",
+                            "parameter": "#typePrimaryKey##nullable# id, [Bind(#fields#)] ? #object#",
+                            "view": "\n\tpublic ActionResult Edit\n\t{\n\t\tif (id == null)\n\t{\n\t\t\treturn NotFound();\n\t\t}\n\t\tvar #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);\n\t\tif (#object# == null)\n\t\t{\n\t\t\treturn NotFound();\n\t\t}\n\t\t#foreignKey#\n\t\treturn View(#object#);\n\t\t}"
+                        },
+                        "save": {
+                            "content": "_context.?.Add(#object#);\nawait _context.SaveChangesAsync();\nreturn RedirectToAction(nameof(Index));",
+                            "function": "Create",
+                            "parameter": "[Bind(#fields#)] ? #object#",
+                            "view": "\n\tpublic ActionResult Create\n\t{\n\t\t#foreignKey#\n\t\treturn View();\n\t}"
+                        }
                     },
                     "controllerProperty" : {
-                        "path": "Route(\"api/?\")",
+                        "path": "Route(\"?\")",
+                        "foreignKey": "ViewData[\"foreignKeyField\"] = new SelectList(_context.foreignObject, \"foreignPrimaryKeyField\", \"foreignPrimaryKeyField\");",
                         "get": "HttpGet",
                         "post": "HttpPost",
-                        "put": "HttpPut",
-                        "delete": "HttpDelete",
+                        "put": "HttpPost",
+                        "delete": "HttpGet",
                         "name":"Controller",
                         "pathSyntax":"[?]",
                         "classSyntax": "?Controller : Controller",
-                        "returnType": "ActionResult<?>",
-                        "returnTypeDelete": "void",
-                        "field": "private readonly ?DbContext _context;\n\tprivate readonly ILogger<?Controller> _logger;",
+                        "returnType": "async Task<IActionResult>",
+                        "returnTypeDelete": "async Task<IActionResult>",
+                        "field": "private readonly RepositoryDbContext _context;\n\tprivate readonly ILogger<?Controller> _logger;",
                         "annotationField": "",
                         "annotationMethodParameter":"",
-                        "annotationArgumentParameterFormData":"FromBody",
+                        "annotationArgumentParameterFormData":"",
                         "annotationArgumentParameterLink":"",
-                        "constructor": "\tpublic #name#Controller(#name#DbContext context) { _context = context; }"
+                        "constructor": "\tpublic #name#Controller(RepositoryDbContext context) { _context = context; }"
                     },
                     "repositoryProperty" : {
                         "name":"DbContext",
@@ -146,7 +173,12 @@
                         "findById":"return ResponseEntity.ok(repository.findById(#Id#));",
                         "delete": "repository.delete(#object#);",
                         "update": "return ResponseEntity.ok(repository.save(#object#));",
-                        "save": "return ResponseEntity.ok(repository.save(#object#));"
+                        "save": "return ResponseEntity.ok(repository.save(#object#));",
+                        "findAllFunction": "findAll",
+                        "findByIdFunction": "findById",
+                        "deleteFunction": "delete",
+                        "updateFunction": "update",
+                        "saveFunction": "save"
                     },
                     "controllerProperty" : {
                         "path": "RequestMapping(path = \"?\")",
@@ -168,7 +200,7 @@
                     },
                     "repositoryProperty" : {
                         "name":"Repository",
-                        "classSyntax": "public interface ?Repository extends CrudRepository<?, #type#>",
+                        "classSyntax": "public interface ?Repository extends JpaRepository<?, #type#>",
                         "fieldSyntax": "",
                         "constructor":""
                     }

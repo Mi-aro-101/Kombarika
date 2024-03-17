@@ -10,8 +10,9 @@ import lombok.Setter;
 /**
  * @author Mamisoa
  */
-@Getter @Setter
-public class ViewDetails extends Configuration{
+@Getter
+@Setter
+public class ViewDetails extends Configuration {
     HashMap<String, ViewProperties> views;
 
     @Override

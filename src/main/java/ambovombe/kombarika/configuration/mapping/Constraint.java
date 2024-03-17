@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Constraint {
-    @Getter @Setter
+    @Getter
+    @Setter
     String primaryKey;
-    @Getter @Setter
+    @Getter
+    @Setter
     ForeignKey foreignKey;
 }

@@ -10,9 +10,11 @@ import java.util.HashMap;
 /**
  * @author rakharrs
  */
-@Getter @Setter
+@Getter
+@Setter
 public class FrameworkDetails extends Configuration {
     HashMap<String, FrameworkProperties> frameworks;
+
     @Override
     public void init() throws Exception {
         setJsonPath("frameworkDetails.json");

@@ -305,7 +305,7 @@ public class View {
     	this.generateCreateViewFile(dirLocations, table, dbconnection, path, directory, viewType, url, codegen, modelPackage);
     	this.generateEditViewFile(dirLocations, table, dbconnection, path, directory, viewType, url, codegen, modelPackage);
     	this.generateIndexViewFile(dirLocations, table, dbconnection, path, directory, viewType, url, codegen, modelPackage);
-    	this.generateDeleteViewFile(dirLocations, table, dbconnection, path, directory, viewType, url, codegen, modelPackage);
+//    	this.generateDeleteViewFile(dirLocations, table, dbconnection, path, directory, viewType, url, codegen, modelPackage);
     }
     
     public void generateCreateViewFile( 

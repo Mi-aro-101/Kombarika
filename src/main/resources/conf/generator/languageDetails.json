@@ -1,243 +1,121 @@
 {
-    "languages": {
-        "csharp": {
-            "name": "dotnet",
-            "importSyntax": "using",
-            "packageSyntax": "namespace",
-            "openBracket": "{",
-            "closeBracket": "}",
-            "classSyntax": "public class",
-            "fieldSyntax": "Type field { get; set; }",
-            "endOfInstruction": ";",
-            "annotationSyntax": "[?]",
+    "languages" : {
+        "csharp" : {
+            "name" : "dotnet",
+            "importSyntax":"using",
+            "packageSyntax":"namespace",
+            "openBracket":"{",
+            "closeBracket":"}",
+            "classSyntax":"public class",
+            "fieldSyntax":"public Type field { get; set; }",
+            "endOfInstruction":";",
+            "annotationSyntax":"[?]",
             "constructorSyntax": "public ?(){}",
             "methodSyntax": "public #type# #name#(#arg#){\n #body#\n}",
-            "encapsulation": "",
-            "extension": "cs",
-            "frameworks": {
-                "dotnet": {
-                    "template": "Template.code",
+            "encapsulation":"",
+            "extension":"cs",
+            "nullable": "?",
+            "isReverse": true,
+            "frameworks" : {
+                "dotnet" : {
+                    "template" : "Template.code",
                     "repository": "Template.code",
-                    "listSyntax": "IEnumerable<?>",
-                    "isOneRepository": "true",
+                    "listSyntax" : "ICollection<?>",
+                    "isOneRepository":"true",
                     "imports": {
-                        "controller": [
+                        "controller":[
                             "System.Diagnostics",
+                            "System.Linq",
+                            "System.Collections.Generic",
+                            "System.Threading.Tasks",
                             "Microsoft.AspNetCore.Mvc",
-                            "packageName.classNameContext",
-                            "entity.?"
+                            "Microsoft.AspNetCore.Mvc.Rendering",
+                            "packageName",
+                            "Microsoft.EntityFrameworkCore",
+                            "entity"
                         ],
-                        "entity": [
+                        "entity":[
                             "System.ComponentModel.DataAnnotations",
                             "System.ComponentModel.DataAnnotations.Schema"
                         ],
-                        "repository": [
+                        "repository":[
                             "packageName",
                             "Microsoft.EntityFrameworkCore"
                         ]
                     },
-                    "annotationProperty": {
-                        "table": "Table(\"?\")",
-                        "autoIncrement": "",
-                        "column": "Column(\"?\")",
+                    "annotationProperty" : {
+                        "table":"Table(\"?\")",
+                        "autoIncrement":"",
+                        "column":"Column(\"?\")",
                         "entity": "",
-                        "controller": "ApiController",
-                        "constraints": {
-                            "primaryKey": "Key",
-                            "foreignKey": {
-                                "annotation": "ForeignKey(\"?\")",
-                                "manyToOne": "",
-                                "manyToMany": "",
-                                "oneToMany": "",
-                                "oneToOne": ""
+                        "controller": "Controller",
+                        "constraints":{
+                            "primaryKey":"Key",
+                            "foreignKey":{
+                                "annotation":"ForeignKey(\"?\")",
+                                "manyToOne":"",
+                                "manyToMany":"",
+                                "oneToMany":"",
+                                "oneToOne":""
                             }
                         }
                     },
-                    "crudMethod": {
-                        "findAll": "return Ok(_context.?.ToList());",
-                        "findById": "",
-                        "delete": "_context.?.Remove(#object#);\n_context.SaveChanges();\treturn Ok();",
-                        "update": "var temp = #object#;\n_context.SaveChanges();\nreturn Ok();",
-                        "save": "_context.?.Add(#object#);\n_context.SaveChanges();\nreturn Ok();"
+                    "crudMethod" : {
+                        "findAll": {
+                            "content": "return View(await _context.?.ToListAsync());",
+                            "function": "Index",
+                            "parameter": "",
+                            "view": ""
+                        },
+                        "findById": {
+                            "content": "if (id == null)\n{\n\treturn NotFound();\n}\nvar #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);\nif (#object# == null)\n{\n\treturn NotFound();\n}\nreturn View(#object#);",
+                            "function": "Details",
+                            "parameter": "#typePrimaryKey##nullable# id",
+                            "view": ""
+                        },
+                        "delete": {
+                            "content": "if (id == null)\n{\n\treturn NotFound();\n}\nvar #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);\nif (#object# == null)\n{\n\treturn NotFound();\n}\n_context.?.Remove(#object#);\nawait _context.SaveChangesAsync();\nreturn RedirectToAction(nameof(Index));",
+                            "function": "Delete",
+                            "parameter": "#typePrimaryKey##nullable# id",
+                            "view": ""
+                        },
+                        "update": {
+                            "content": "if (id == null)\n{\n\treturn NotFound();\n}\n_context.?.Update(#object#);\nawait _context.SaveChangesAsync();\nreturn RedirectToAction(nameof(Index));",
+                            "function": "Edit",
+                            "parameter": "#typePrimaryKey##nullable# id, [Bind(#fields#)] ? #object#",
+                            "view": "\n\tpublic async Task<IActionResult> Edit(#typePrimaryKey##nullable# id)\n\t{\n\t\tif (id == null)\n\t\t{\n\t\t\treturn NotFound();\n\t\t}\n\t\tvar #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);\n\t\tif (#object# == null)\n\t\t{\n\t\t\treturn NotFound();\n\t\t}\n\t\t#foreignKey#\n\t\treturn View(#object#);\n\t}"
+                        },
+                        "save": {
+                            "content": "_context.?.Add(#object#);\nawait _context.SaveChangesAsync();\nreturn RedirectToAction(nameof(Index));",
+                            "function": "Create",
+                            "parameter": "[Bind(#fields#)] ? #object#",
+                            "view": "\n\tpublic async Task<IActionResult> Create()\n\t{\n\t\t#foreignKey#\n\t\treturn View();\n\t}"
+                        }
                     },
-                    "controllerProperty": {
-                        "path": "Route(\"api/?\")",
+                    "controllerProperty" : {
+                        "path": "Route(\"?\")",
+                        "passValueToView": "ViewData[\"#foreignKeyField#\"] = await _context.#foreignObject#.ToListAsync();",
                         "get": "HttpGet",
                         "post": "HttpPost",
-                        "put": "HttpPut",
-                        "delete": "HttpDelete",
-                        "name": "Controller",
-                        "pathSyntax": "[?]",
+                        "put": "HttpPost",
+                        "delete": "HttpGet",
+                        "name":"Controller",
+                        "pathSyntax":"[?]",
                         "classSyntax": "?Controller : Controller",
-                        "returnType": "ActionResult<?>",
-                        "returnTypeDelete": "void",
-                        "field": "private readonly ?DbContext _context;\n\tprivate readonly ILogger<?Controller> _logger;",
+                        "returnType": "async Task<IActionResult>",
+                        "returnTypeDelete": "async Task<IActionResult>",
+                        "field": "private readonly ModelsDbContext _context;\n\tprivate readonly ILogger<?Controller> _logger;",
                         "annotationField": "",
-                        "annotationMethodParameter": "",
-                        "annotationArgumentParameterFormData": "FromBody",
-                        "annotationArgumentParameterLink": "",
-                        "constructor": "\tpublic #name#Controller(#name#DbContext context) { _context = context; }"
+                        "annotationMethodParameter":"",
+                        "annotationArgumentParameterFormData":"",
+                        "annotationArgumentParameterLink":"",
+                        "constructor": "\tpublic #name#Controller(ModelsDbContext context) { _context = context; }"
                     },
-                    "repositoryProperty": {
-                        "name": "DbContext",
-                        "classSyntax": "public class ?DbContext : DbContext",
+                    "repositoryProperty" : {
+                        "name":"ModelsDbContext",
+                        "classSyntax": "public class ModelsDbContext : DbContext",
                         "fieldSyntax": "\tpublic DbSet<#Field#> #Field# { get; set; }",
-                        "constructor": ""
-                    }
-                }
-            }
-        },
-        "java": {
-            "name": "java",
-            "importSyntax": "import",
-            "packageSyntax": "package",
-            "classSyntax": "public class",
-            "fieldSyntax": "Type field;",
-            "openBracket": "{",
-            "closeBracket": "}",
-            "endOfInstruction": ";",
-            "annotationSyntax": "@?",
-            "constructorSyntax": "public ?(){}\n",
-            "methodSyntax": "public #type# #name#(#arg#){\n #body#\n}",
-            "encapsulation": "\tpublic #type# get#Field#(){\n\t\treturn this.#field#;\n\t}\n\n\tpublic void set#Field#(#type# #field#){\n\t\tthis.#field# = #field#;\n\t}\n\n",
-            "extension": "java",
-            "frameworks": {
-                "spring-boot": {
-                    "template": "Template.code",
-                    "repository": "Template.code",
-                    "listSyntax": "Iterable<?>",
-                    "isOneRepository": "false",
-                    "imports": {
-                        "controller": [
-                            "packageName.classNameRepository",
-                            "entity.className",
-                            "org.springframework.http.*",
-                            "org.springframework.beans.factory.annotation.Autowired",
-                            "org.springframework.web.bind.annotation.*"
-                        ],
-                        "entity": [
-                            "jakarta.persistence.*"
-                        ],
-                        "repository": [
-                            "packageName.className",
-                            "org.springframework.data.repository.CrudRepository",
-                            "org.springframework.data.jpa.repository.Query"
-                        ]
-                    },
-                    "annotationProperty": {
-                        "table": "Table(name = \"?\")",
-                        "autoIncrement": "GeneratedValue(strategy=GenerationType.IDENTITY)",
-                        "column": "Column(name = \"?\")",
-                        "entity": "Entity",
-                        "controller": "RestController\n@CrossOrigin(\"*\")",
-                        "constraints": {
-                            "primaryKey": "Id",
-                            "foreignKey": {
-                                "annotation": "JoinColumn(name = \"?\")",
-                                "manyToOne": "ManyToOne",
-                                "manyToMany": "",
-                                "oneToMany": "",
-                                "oneToOne": ""
-                            }
-                        }
-                    },
-                    "crudMethod": {
-                        "findAll": "return ResponseEntity.ok(repository.findAll());",
-                        "findById": "return ResponseEntity.ok(repository.findById(#Id#));",
-                        "delete": "repository.delete(#object#);",
-                        "update": "return ResponseEntity.ok(repository.save(#object#));",
-                        "save": "return ResponseEntity.ok(repository.save(#object#));"
-                    },
-                    "controllerProperty": {
-                        "path": "RequestMapping(path = \"?\")",
-                        "get": "GetMapping()",
-                        "post": "PostMapping()",
-                        "put": "PutMapping()",
-                        "name": "Controller",
-                        "pathSyntax": "?",
-                        "delete": "DeleteMapping()",
-                        "classSyntax": "?Controller",
-                        "field": "private ?Repository repository;",
-                        "returnType": "ResponseEntity<?>",
-                        "returnTypeDelete": "void",
-                        "annotationField": "Autowired",
-                        "annotationMethodParameter": "",
-                        "annotationArgumentParameterFormData": "RequestBody",
-                        "annotationArgumentParameterLink": "PathVariable",
-                        "constructor": ""
-                    },
-                    "repositoryProperty": {
-                        "name": "Repository",
-                        "classSyntax": "public interface ?Repository extends CrudRepository<?, #type#>",
-                        "fieldSyntax": "",
-                        "constructor": ""
-                    }
-                },
-                "karana": {
-                    "template": "Template.code",
-                    "repository": "",
-                    "listSyntax": "List<?>",
-                    "isOneRepository": "false",
-                    "imports": {
-                        "controller": [
-                            "entity.className",
-                            "com.karana.etu2060.framework.annotation.*",
-                            "com.karana.etu2060.framework.annotation.property.*",
-                            "com.dao.database.GenericDao"
-                        ],
-                        "entity": [
-                            "com.dao.annotation.*",
-                            "com.dao.annotation.conf.ForeignType"
-                        ],
-                        "repository": []
-                    },
-                    "annotationProperty": {
-                        "table": "Table(name = \"?\")",
-                        "autoIncrement": "GeneratedValue(autoIncrement = true)",
-                        "column": "Column(name = \"?\")",
-                        "entity": "",
-                        "controller": "",
-                        "constraints": {
-                            "primaryKey": "PrimaryKey",
-                            "foreignKey": {
-                                "annotation": "ForeignKey(mappedBy = \"?\", foreignType = ForeignType.OneToMany)",
-                                "manyToOne": "",
-                                "manyToMany": "",
-                                "oneToMany": "",
-                                "oneToOne": ""
-                            }
-                        }
-                    },
-                    "crudMethod": {
-                        "findAll": "try{\n\treturn GenericDao.findAll(null, entity);\n}catch(Exception e){\n\treturn \"Bad request\";\n}",
-                        "findById": "try{\n\treturn GenericDao.findById(null, #Id#);\n}catch(Exception e){\n\treturn \"Bad request\";\n}",
-                        "delete": "try{\n\tGenericDao.delete(null, #object#);\n\treturn \"deleted successfully\";\n}catch(Exception e){\n\treturn \"Bad request\";\n}",
-                        "update": "try{\n\tGenericDao.update(null, #object#);\n\treturn \"updated successfully\";\n}catch(Exception e){\n\treturn \"Bad request\";\n}",
-                        "save": "try{\n\tGenericDao.save(null, #object#);\n\treturn \"saved successfully\";\n}catch(Exception e){\n\treturn \"Bad request\";\n}"
-                    },
-                    "controllerProperty": {
-                        "path": "",
-                        "get": "Url(url = \"find-?.do\")\n@Json(method = JsonMethods.GET)",
-                        "post": "Url(url = \"save-?.do\")\n@Json(method = JsonMethods.POST)",
-                        "put": "Url(url = \"update-?.do\")\n@Json(method = JsonMethods.PUT)",
-                        "delete": "Url(url = \"delete-?.do\")\n@Json(method = JsonMethods.DELETE)",
-                        "classSyntax": "?Model",
-                        "field": "private ? entity;",
-                        "returnType": "Object",
-                        "returnTypeDelete": "void",
-                        "name": "Model",
-                        "pathSyntax": "?",
-                        "annotationField": "",
-                        "annotationMethodParameter": "",
-                        "annotationArgumentParameterFormData": "Argument",
-                        "annotationArgumentParameterLink": "",
-                        "constructor": ""
-                    },
-                    "repositoryProperty": {
-                        "name": "",
-                        "classSyntax": "",
-                        "fieldSyntax": "",
-                        "constructor": ""
+                        "constructor":""
                     }
                 }
             }

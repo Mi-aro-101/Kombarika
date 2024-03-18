@@ -38,4 +38,12 @@ public class Misc {
         String separator = File.separator;
         return getConfigLocation() + separator + "generator";
     }
+    
+    public static String reversePackage(String template)throws Exception{
+    	template = template.replace("#package#", "#pack#");
+    	template = template.replace("#imports#", "#imp#");
+    	template = template.replace("#pack#", "#imports#");
+    	template = template.replace("#imp#", "#package#");
+    	return template;
+    }
 }

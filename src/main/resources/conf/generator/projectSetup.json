@@ -8,7 +8,8 @@
         "viewType":"razor",
         "name":"csharp:dotnet",
         "framework":".NET",
-        "repository":"Models"
+        "repository":"Models",
+        "viewPath":"Views"
     },
     "java:spring-boot":{
         "packageName":"org.example",
@@ -19,6 +20,7 @@
         "viewType":"thymeleaf",
         "name":"java:spring-boot",
         "framework":"Spring",
-        "repository":"repository"
+        "repository":"repository",
+        "viewPath":"view"
     }
 }

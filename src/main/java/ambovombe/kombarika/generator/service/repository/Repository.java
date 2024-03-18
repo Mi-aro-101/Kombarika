@@ -83,6 +83,9 @@ public class Repository {
             field += this.getFrameworkProperties().getRepositoryProperty().getFieldSyntax()
                 .replace("#Field#", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(string))) + "\n";
         }
+        if (this.getLanguageProperties().isReverse()) {
+        	template = Misc.reversePackage(template);
+        }
         res = template.replace("#package#", GeneratorService.getPackage(this.getLanguageProperties(), packageName))
                 .replace("#imports#", getRepositoryImport(entityPackage, context))
                 .replace("#class#", getRepositoryClass(context, primaryKeysType))

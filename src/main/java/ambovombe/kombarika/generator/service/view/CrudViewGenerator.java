@@ -30,11 +30,13 @@ public class CrudViewGenerator {
 				String fk = foreignKeys.get(set.getKey());
 				if(fk != null) {
 					tpl = templateFk;
-					tpl = tpl.replace("#name#", set.getKey());
+					String colName = ObjectUtility.formatToCamelCase(set.getKey());
+					tpl = tpl.replace("#name#", colName);
 				}
 				else if(fk == null || fk.equals("")) {
 					tpl = template;
-					tpl = tpl.replace("#name#", set.getKey());
+					String colName = ObjectUtility.formatToCamelCase(set.getKey());
+					tpl = tpl.replace("#name#", colName);
 				}
 			}
 			result += tpl; 
@@ -45,6 +47,7 @@ public class CrudViewGenerator {
 	public String getInputUpdate(View view, String properPk) {
 		String result = "";
 		String template = view.getViewProperties().getInputUpdate();
+		properPk = ObjectUtility.formatToCamelCase(properPk);
 		result = template.replace("#id#", properPk);
 		return result;
 	}
@@ -56,7 +59,8 @@ public class CrudViewGenerator {
 		for(Map.Entry<String, String> set : columns.entrySet()) {
 			if(!set.getKey().equals(pk)) {
 				tpl = template;
-				tpl = tpl.replace("#name#", set.getKey());
+				String colName = ObjectUtility.formatToCamelCase(set.getKey());
+				tpl = tpl.replace("#name#", colName);
 			}
 			result+=tpl;
 		}
@@ -70,7 +74,8 @@ public class CrudViewGenerator {
 		for(Map.Entry<String, String> set : columns.entrySet()) {
 			if(!set.getKey().equals(pk)) {
 				tpl = template;
-				tpl = tpl.replace("#name#", set.getKey());
+				String colName = ObjectUtility.formatToCamelCase(set.getKey());
+				tpl = tpl.replace("#name#", colName);
 			}
 			result+=tpl;
 		}
@@ -94,7 +99,7 @@ public class CrudViewGenerator {
         String attribute = idAndAttribute.get("attribute");
         // Get the true unique primary key of this table
         String properPk = GeneratorService.getPrimaryKeyName(foreignKeys, primaryKeys);
-        String tableClassName = GeneratorService.toFirstUpperCase(table);
+        String tableClassName = GeneratorService.toFirstUpperCase(ObjectUtility.formatToCamelCase(table));
         result = template.replace("#entity#", ObjectUtility.formatToSpacedString(table)).
         		replace("#inputInsert#", getInputInsert(view, columns, foreignKeys, properPk)).
         		replace("#package#", modelPackage+"."+tableClassName); 
@@ -119,7 +124,7 @@ public class CrudViewGenerator {
         String attribute = idAndAttribute.get("attribute");
         // Get the true unique primary key of this table
         String properPk = GeneratorService.getPrimaryKeyName(foreignKeys, primaryKeys);
-        String tableClassName = GeneratorService.toFirstUpperCase(table);
+        String tableClassName = GeneratorService.toFirstUpperCase(ObjectUtility.formatToCamelCase(table));
         result = template.replace("#entity#", ObjectUtility.formatToSpacedString(table)).
         		replace("#inputInsert#", getInputInsert(view, columns, foreignKeys, properPk)).
         		replace("#package#", modelPackage+"."+tableClassName).
@@ -145,12 +150,12 @@ public class CrudViewGenerator {
         String attribute = idAndAttribute.get("attribute");
         // Get the true unique primary key of this table
         String properPk = GeneratorService.getPrimaryKeyName(foreignKeys, primaryKeys);
-        String tableClassName = GeneratorService.toFirstUpperCase(table);
+        String tableClassName = GeneratorService.toFirstUpperCase(ObjectUtility.formatToCamelCase(table));
         result = template.replace("#entity#", ObjectUtility.formatToSpacedString(table)).
         		replace("#tableHeader#", getTableHeader(view, columns, foreignKeys, properPk)).
         		replace("#package#", modelPackage+"."+tableClassName).
         		replace("#tableValue#", getTableValue(view, columns, foreignKeys, properPk)).
-        		replace("#id#", properPk);
+        		replace("#id#", ObjectUtility.formatToCamelCase(properPk));
         
 		return result;
 	}
@@ -172,7 +177,7 @@ public class CrudViewGenerator {
         String attribute = idAndAttribute.get("attribute");
         // Get the true unique primary key of this table
         String properPk = GeneratorService.getPrimaryKeyName(foreignKeys, primaryKeys);
-        String tableClassName = GeneratorService.toFirstUpperCase(table);
+        String tableClassName = GeneratorService.toFirstUpperCase(ObjectUtility.formatToCamelCase(table));
         result = template.replace("#entity#", ObjectUtility.formatToSpacedString(table)).
         		replace("#tableHeader#", getTableHeader(view, columns, foreignKeys, properPk)).
         		replace("#package#", modelPackage+"."+tableClassName).

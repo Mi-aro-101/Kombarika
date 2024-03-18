@@ -56,7 +56,8 @@ public class CodeGenerator {
         String lang)
     throws Exception{
         String[] splittedLang = lang.split(":");
-        String language = splittedLang[0]; String framework = splittedLang[1];
+        String language = splittedLang[0]; 
+        String framework = splittedLang[1];
         this.setFrameworkProperties(this.getLanguageDetails().getLanguages().get(language).getFrameworks().get(framework));
         generateEntityFile(path, table, packageName, language, framework);
     }
@@ -152,6 +153,7 @@ public class CodeGenerator {
         String[] splittedLang = lang.split(":");
         String language = splittedLang[0]; String framework = splittedLang[1];
         String repository = buildRepository(tables, context, packageName, entityPackage, language, framework);
+        context = "";
         generateRepositoryFile(path, context, packageName, language, framework, repository);
     }
 
@@ -187,10 +189,12 @@ public class CodeGenerator {
         FileUtility.generateFile(path, GeneratorService.getFileName(table, languageProperties.getExtension()), entity);
     }
 
-    public String buildController(String table, String packageName, String repository, String entity, String language, String framework) throws Exception{
+    public String buildController(String table, String packageName, String repository, String entity, String language,
+            String framework) throws Exception {
         LanguageProperties languageProperties = getLanguageDetails().getLanguages().get(language);
         FrameworkProperties frameworkProperties = languageProperties.getFrameworks().get(framework);
         String template = frameworkProperties.getTemplate();
+        TypeMapping typeMapping = getTypeProperties().getListProperties().get(language);
         Controller controller = new Controller();
         controller.setAnnotationProperty(frameworkProperties.getAnnotationProperty());
         controller.setControllerProperty(frameworkProperties.getControllerProperty());
@@ -198,6 +202,8 @@ public class CodeGenerator {
         controller.setImports(frameworkProperties.getImports());
         controller.setLanguageProperties(languageProperties);
         controller.setFrameworkProperties(frameworkProperties);
+        controller.setDbConnection(dbConnection);
+        controller.setTypeMapping(typeMapping);
         return controller.generateController(template, table, packageName, repository, entity, framework);
     }
 
@@ -228,7 +234,11 @@ public class CodeGenerator {
         View viewToGenerate = new View();
         viewToGenerate.setViewProperties(this.getViewDetails().getViews().get(viewType));
         viewToGenerate.setFrameworkProperties(this.getFrameworkProperties());
-        String modelPackage = packageName+"."+entity;
+        entity = entity.replace("/", ".");
+        packageName = packageName.replace("/", ".");
+        String modelPackage = entity;
+        if(!packageName.equals(""))
+        	modelPackage = packageName+"."+entity;
                 
         if(viewToGenerate.getViewProperties().isMultipleTemplate()){
             // Implement multiple view Template like razor generation
@@ -249,7 +259,11 @@ public class CodeGenerator {
         String framework
     )  throws Exception{
         for (String table : tables) {
-            generateEntity(path, table, packageName + "." + entity, framework);
+        	if(!packageName.equals(""))
+        		generateEntity(path, table, packageName + "." + entity, framework);
+        	else {
+        		generateEntity(path, table, entity, framework);
+        	}
         }
     }
     public void generateAllController(
@@ -262,7 +276,11 @@ public class CodeGenerator {
         String framework
     )  throws Exception{
         for (String table : tables) {
-            generateController(path, table, packageName + "." + controller, packageName + "." + repository, packageName + "." + entity, framework);  
+        	if(!packageName.equals(""))
+        		generateController(path, table, packageName + "." + controller, packageName + "." + repository, packageName + "." + entity, framework);  
+        	else {
+        		generateController(path, table, controller, repository, entity, framework);
+        	}
         }
     }
     
@@ -274,11 +292,17 @@ public class CodeGenerator {
         String repository,
         String framework
     )  throws Exception{
+    	
+    	String pckg = "";
+    	if(!packageName.equals("")) {
+    		pckg = packageName + ".";
+    	}
+    	
         if(this.getFrameworkProperties().isOneRepository()){
-            generateRepository(path, tables, ObjectUtility.capitalize(repository), packageName + "." + repository, entity, framework);
+            generateRepository(path, tables, ObjectUtility.capitalize(repository), pckg+repository, entity, framework);
         }else{
             for (String table : tables) {
-                generateRepository(path, table, packageName + "." + repository, packageName + "." + entity, framework);
+                generateRepository(path, table, pckg+repository, pckg+entity, framework);
             }
         }
     }

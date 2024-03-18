@@ -67,7 +67,7 @@ public class Test {
         // Location of the generated code (Entity, Controller, Repository, ...)
         String path = builder.getRoot();
         // Location of the views
-        String viewPath = "";
+        String viewPath = builder.getRoot();
         // Choose framework
         String framework = builder.getName();
         // Package name where to put the files generated (root directory of all)
@@ -99,11 +99,11 @@ public class Test {
             //     System.out.println(table);
             
             /* My test */
-            codeGenerator.generateAllEntity(path, tables, packageName, entity, framework);
-            codeGenerator.generateAllRepository(path, tables, packageName, entity, repository, framework);
-            codeGenerator.generateAllController(path, tables, packageName, entity, controller, repository, framework);
+//            codeGenerator.generateAllEntity(path, tables, packageName, entity, framework);
+//            codeGenerator.generateAllRepository(path, tables, packageName, entity, repository, framework);
+//            codeGenerator.generateAllController(path, tables, packageName, entity, controller, repository, framework);
             /* Main test */
-//            codeGenerator.generateAll(path, viewPath, packageName, entity, controller, repository, view, viewType, url, tables, framework);
+            codeGenerator.generateAll(path, viewPath, packageName, entity, controller, repository, view, viewType, url, tables, framework);
         }catch(Exception e){
             e.printStackTrace();
         }finally{

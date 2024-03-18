@@ -205,7 +205,7 @@ public class Controller {
                 } catch (Exception e) {
                         primaryKeyType = "int";
                 }
-                args += this.crudMethod.getDelete().getParameter()
+                args += this.crudMethod.getFindById().getParameter()
                                 .replace("#fields#", "\"" + fields + "\"")
                                 .replace("#typePrimaryKey#", primaryKeyType)
                                 .replace("#object#", ObjectUtility.formatToCamelCase(table))

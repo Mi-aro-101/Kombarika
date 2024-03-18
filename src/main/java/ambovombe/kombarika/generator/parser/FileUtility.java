@@ -71,10 +71,12 @@ public class FileUtility {
         return builder.toString();
     }
 
-    public static void createFile(String path, String fileName) throws Exception{
+    public static void createFile(String path) throws Exception{
         String separator = File.separator;
-        path = path + separator + fileName;
         File file = new File(path);
+        if(!file.exists()) {
+        	file.createNewFile();
+        }
         System.out.println(file.getPath() + " created");
     }
     
@@ -85,9 +87,8 @@ public class FileUtility {
     }
     
     public static void generateFile(String path, String fileName, String body) throws Exception{
-        createFile(path, fileName);
-        path = path + File.separator + fileName;
+    	path = path + File.separator + fileName;
+        createFile(path);
         writeFile(path, body);
     }
-    
 }

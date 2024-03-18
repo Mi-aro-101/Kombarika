@@ -1,5 +1,8 @@
 package ambovombe.kombarika.generator.service;
 
+import java.util.HashMap;
+import java.util.List;
+
 import ambovombe.kombarika.configuration.mapping.LanguageProperties;
 import ambovombe.kombarika.generator.utils.ObjectUtility;
 
@@ -12,5 +15,19 @@ public class GeneratorService {
     public static String getFileName(String table, String extension){
         return ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)).concat("." + extension);
     }
-
+    
+    public static String getPrimaryKeyName(HashMap<String, String> fk, List<String> pk)throws Exception{
+    	String primaryKey = "";
+    	
+    	for(String id : pk) {
+    		if(!fk.containsKey(id))
+    			primaryKey = id; break;
+    	}
+    	
+    	return primaryKey;
+    }
+    
+    public static String toFirstUpperCase(String table) {
+    	return table.substring(0,1).toUpperCase()+table.substring(1, table.length());
+    }
 }

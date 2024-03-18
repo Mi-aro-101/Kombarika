@@ -1,13 +1,15 @@
 package ambovombe.kombarika.configuration.mapping;
 
+import ambovombe.kombarika.configuration.mapping.crudMethod.MethodCrud;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class CrudMethod {
-    String findAll;
-    String findById;
-    String delete;
-    String update;
-    String save;
+    MethodCrud findAll;
+    MethodCrud findById;
+    MethodCrud delete;
+    MethodCrud update;
+    MethodCrud save;
 }

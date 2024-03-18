@@ -1,6 +1,7 @@
 {
     "views":{
         "ajax":{
+            "isMultipleTemplate":false,
             "inputInsert":"<div class=\"mb-3\"> \n \t<label class=\"form-label\">#label#</label> \n \t<input class=\"form-control\" type=\"#type#\" name=\"#name#\" >\n</div>",
             "inputUpdate":"<div class=\"mb-3\"> \n \t<label class=\"form-label\">#label#</label> \n \t<input class=\"form-control\" type=\"#type#\" name=\"#name#\" value=\"`+data[i][\"#name#\"]+`\">\n</div>",
             "select":"<div  class=\"mb-3\"> \n \t<label class=\"form-label\">#label#</label> \n \t<select class=\"form-control\" name=\"#name#\" id=\"select-#name#\">\n#option#\n\t</select>\n</div>",
@@ -8,7 +9,9 @@
             "option":"<script>\n$.ajax({\n\turl: '#url#/#path#',\n\ttype: 'GET',\n\tsuccess: function(data) {\n\t\tvar keys = Object.keys(data[0]);\n\t\tvar select = $(\"#select-#label#\");\n\t\tfor (let i = 0; i < data.length; i++) { \n\t\t\tvar option = `<option value=`+data[i][\"#id#\"]+`>`+data[i][\"#attibute#\"]+`</option>`;\n\t\t\tselect.append(option);\n\t\t}\n\t}\n})\n</script>",
             "optionUpdate":"$.ajax({\n\turl: '#url#/#path#',\n\ttype: 'GET',\n\tsuccess: function(data#Name#) {\n\t\tvar keys = Object.keys(data#Name#[0]);\n\t\tvar select = $(\"#select-#label#-\"+data[i][\"#id#\"]);\n\t\tfor (let j = 0; j < data#Name#.length; j++) { \n\t\t\tvar option = `<option value=`+data#Name#[j][\"#id#\"]+`>`+data#Name#[j][\"#attribute#\"]+`</option>`;\n\t\t\tselect.append(option);\n\t\t}\n\t}\n});",
             "tableHeader":"\t<th> #label# </th>",
-            "template":"html/ViewTemplate.txt",
+            "templates":{
+                "CRUD" : "html/ViewTemplate.txt"
+            },
             "handleInputChange":"",
             "handleSelectChange":"",
             "values":"",
@@ -32,6 +35,7 @@
             }
         },
         "react":{
+            "isMultipleTemplate":false,
             "inputInsert":"<div className=\"mb-3\"> \n \t<label className=\"form-label\">#label#</label> \n \t<input className=\"form-control\" type=\"#type#\" name=\"#name#\" />\n</div>",
             "inputUpdate":"<div className=\"mb-3\"> \n \t<label className=\"form-label\">#label#</label> \n \t<input className=\"form-control\" type=\"#type#\" name=\"#name#\" onChange={handleInput#Name#Change} value={selectedItem ? selectedItem.#name#:''} />\n</div>",
             "select":"<div className=\"mb-3\"> \n \t<label className=\"form-label\">#label#</label> \n \t<select className=\"form-control\" name=\"#name#\" id=\"select-#name#\">\n#option#\n\t</select>\n</div>",
@@ -39,7 +43,9 @@
             "option":"{region.map((elt) => (\n\t<option value={elt.#id#}>{elt.#attribute#}</option>\n))}\n",
             "optionUpdate":"{region.map((elt) => (\n\t<option value={elt.#id#}>{elt.#attribute#}</option>\n))}\n",
             "tableHeader":"\t<th> #label# </th>",
-            "template":"react/ReactTemplate.txt",
+            "templates":{
+                "CRUD":"react/ReactTemplate.txt"
+            },
             "handleInputChange":"const handleInput#Name#Change = (event) => {\n\tsetSelectedItem({ ...selectedItem, #name#: event.target.value });\n};\n",
             "handleSelectChange":"const handleSelect#Name#Change = (event) => {\n\tsetSelectedItem({ ...selectedItem, #name#: event.target.value });\n};\n",
             "values":"const [#entity#, set#Entity#] = useState([]);\n",
@@ -61,6 +67,21 @@
                 "BigInt":"number",
                 "[B":"file"
             }
+        },
+        "razor":{
+            "isMultipleTemplate":true,
+            "inputInsert":"<div class=\"form-group\"> \n \t\t\t\t\t<label asp-for=\"#name#\" class=\"control-label\"></label> \n\t\t\t\t\t<input class=\"form-control\" asp-for=\"#name#\" >\n\t\t\t\t\t<span asp-validation-for=\"#name#\" class=\"text-danger\"></span>\n\t\t\t\t</div>\n\t\t\t\t",
+            "inputUpdate":"<input type=\"hidden\" asp-for=\"#id#\" />",
+            "templates":{
+                "Index":"razor/Index.txt",
+                "Delete":"razor/Delete.txt",
+                "Create":"razor/Create.txt",
+                "Edit":"razor/Edit.txt"
+            },
+            "tableHeader":"<th> @Html.DisplayNameFor(model => model.#name#) </th>\n\t\t\t",
+            "tableValue":"<td> @Html.DisplayFor(modelItem => item.#name#) </td>\n\t\t\t",
+            "extension":"cshtml",
+            "select":"<div class=\"form-group\">\n\t\t\t\t\t<label asp-for=\"#name#\" class=\"control-label\"></label>\n\t\t\t\t\t<select asp-for=\"#name#\" class =\"form-control\" asp-items=\"ViewBag.#name#\"></select>\n\t\t\t\t</div>\n\t\t\t\t"
         }
     }
 }

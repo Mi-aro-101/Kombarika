@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter @Setter
 public class ControllerProperty {
     String path;
+    String passValueToView;
     String get;
     String post;
     String put;

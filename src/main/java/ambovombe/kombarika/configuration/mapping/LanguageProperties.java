@@ -24,6 +24,7 @@ public class LanguageProperties {
     private String closeBracket;
     private String annotationSyntax;
     private String encapsulation;
+    private String annontationFieldNotMapped;
     private String extension;
     private String classSyntax;
     private String fieldSyntax;

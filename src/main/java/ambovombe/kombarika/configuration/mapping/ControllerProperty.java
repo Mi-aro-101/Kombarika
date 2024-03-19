@@ -14,6 +14,7 @@ public class ControllerProperty {
     String name;
     String classSyntax;
     String pathSyntax;
+    boolean isControllerUse;
     String field;
     String returnType;
     String returnTypeDelete;

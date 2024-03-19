@@ -13,6 +13,7 @@
             "constructorSyntax": "public ?(){}",
             "methodSyntax": "public #type# #name#(#arg#){\n #body#\n}",
             "encapsulation":"",
+            "annontationFieldNotMapped": "[NotMapped]",
             "extension":"cs",
             "nullable": "?",
             "isReverse": true,
@@ -20,7 +21,7 @@
                 "dotnet" : {
                     "template" : "Template.code",
                     "repository": "Template.code",
-                    "listSyntax" : "ICollection<?>",
+                    "listSyntax" : "IEnumerable<?>",
                     "isOneRepository":"true",
                     "imports": {
                         "controller":[
@@ -82,7 +83,7 @@
                         "update": {
                             "content": "if (id == null)\n{\n\treturn NotFound();\n}\n_context.?.Update(#object#);\nawait _context.SaveChangesAsync();\nreturn RedirectToAction(nameof(Index));",
                             "function": "Edit",
-                            "parameter": "#typePrimaryKey##nullable# id, [Bind(#fields#)] ? #object#",
+                            "parameter": "#typePrimaryKey# id, [Bind(#fields#)] ? #object#",
                             "view": "\n\tpublic async Task<IActionResult> Edit(#typePrimaryKey##nullable# id)\n\t{\n\t\tif (id == null)\n\t\t{\n\t\t\treturn NotFound();\n\t\t}\n\t\tvar #object# = await _context.?.FirstOrDefaultAsync(m => m.#primaryKeyField# == id);\n\t\tif (#object# == null)\n\t\t{\n\t\t\treturn NotFound();\n\t\t}\n\t\t#foreignKey#\n\t\treturn View(#object#);\n\t}"
                         },
                         "save": {
@@ -94,13 +95,14 @@
                     },
                     "controllerProperty" : {
                         "path": "Route(\"?\")",
-                        "passValueToView": "ViewData[\"#foreignKeyField#\"] = await _context.#foreignObject#.ToListAsync();",
+                        "passValueToView": "ViewData[\"#foreignKeyField#\"] = new SelectList(_context.#foreignObject#, \"#foreignKeyField#\", \"#foreignKeyField#\");",
                         "get": "HttpGet",
                         "post": "HttpPost",
                         "put": "HttpPost",
                         "delete": "HttpGet",
                         "name":"Controller",
                         "pathSyntax":"[?]",
+                        "isControllerUse": false,
                         "classSyntax": "?Controller : Controller",
                         "returnType": "async Task<IActionResult>",
                         "returnTypeDelete": "async Task<IActionResult>",
@@ -115,7 +117,7 @@
                         "name":"ModelsDbContext",
                         "classSyntax": "public class ModelsDbContext : DbContext",
                         "fieldSyntax": "\tpublic DbSet<#Field#> #Field# { get; set; }",
-                        "constructor":""
+                        "constructor":"\tpublic ModelsDbContext(DbContextOptions options) : base (options) { }"
                     }
                 }
             }

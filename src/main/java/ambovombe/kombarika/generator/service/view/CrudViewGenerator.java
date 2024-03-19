@@ -26,18 +26,17 @@ public class CrudViewGenerator {
 		String templateFk = view.getViewProperties().getSelect();
 		String tpl = "";
 		for(Map.Entry<String, String> set : columns.entrySet()) {
-			if(!set.getKey().equals(pk)) {
-				String fk = foreignKeys.get(set.getKey());
-				if(fk != null) {
-					tpl = templateFk;
-					String colName = ObjectUtility.formatToCamelCase(set.getKey());
-					tpl = tpl.replace("#name#", colName);
-				}
-				else if(fk == null || fk.equals("")) {
-					tpl = template;
-					String colName = ObjectUtility.formatToCamelCase(set.getKey());
-					tpl = tpl.replace("#name#", colName);
-				}
+			if(set.getKey().equals(pk)) continue;
+			String fk = foreignKeys.get(set.getKey());
+			if(fk != null) {
+				tpl = templateFk;
+				String colName = ObjectUtility.formatToCamelCase(set.getKey());
+				tpl = tpl.replace("#name#", colName);
+			}
+			else if(fk == null || fk.equals("")) {
+				tpl = template;
+				String colName = ObjectUtility.formatToCamelCase(set.getKey());
+				tpl = tpl.replace("#name#", colName);
 			}
 			result += tpl; 
 		}

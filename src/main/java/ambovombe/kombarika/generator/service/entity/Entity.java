@@ -75,11 +75,12 @@ public class Entity {
         }
 
         public String getEntityField(HashMap<String, String> columns, HashMap<String, String> foreignKeys,
-                        List<String> primaryKeys) {
+                        List<String> primaryKeys)throws Exception {
                 String res = "";
                 String temp;
+                String properPk = GeneratorService.getPrimaryKeyName(foreignKeys, primaryKeys);
                 for (Map.Entry<String, String> set : columns.entrySet()) {
-                        if (primaryKeys.contains(set.getKey())) {
+                        if (properPk.equals(set.getKey())) {
                                 res += "\t"
                                                 + this.getLanguageProperties().getAnnotationSyntax().replace("?",
                                                                 this.getAnnotationProperty().getConstraints()
@@ -111,7 +112,12 @@ public class Entity {
                                                                         this.getAnnotationProperty().getConstraints()
                                                                                         .getForeignKey().getManyToOne())
                                                         + "\n";
-                                }
+                                }     
+                                res += "\t"
+                                        	+ this.getLanguageProperties().getAnnotationSyntax()
+                                        		.replace("?", this.getAnnotationProperty().getColumn())
+                                        		.replace("?", set.getKey())
+                                        	+ "\n";
                                 // Récupérer la foreignKey
                                 res += "\t"
                                                 + this.getLanguageProperties().getFieldSyntax()
@@ -122,6 +128,7 @@ public class Entity {
                                                                                                 set.getKey()))
                                                 + "\n";
                                 //
+                                res += "\t" + this.getLanguageProperties().getAnnontationFieldNotMapped() + "\n ";
                                 res += "\t"
                                                 + this.getLanguageProperties().getFieldSyntax()
                                                                 .replace("Type", ObjectUtility.capitalize(

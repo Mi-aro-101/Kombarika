@@ -45,7 +45,7 @@ public class Controller {
                 // + ObjectUtility.formatToCamelCase(table);
                 String primaryKeyType = "";
                 String primaryKeyColumn = getPrimaryKey(table);
-                String fields = getFields(table);
+                String fields = getFieldsForSave(table);
                 try {
                         primaryKeyType = getPrimaryKeyType(table);
                         primaryKeyType = this.typeMapping.getListMapping().get(primaryKeyType).getType();
@@ -90,7 +90,7 @@ public class Controller {
                 // this.getControllerProperty().getAnnotationArgumentParameterFormData()) + " "
                 // + ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)) + " "
                 // + ObjectUtility.formatToCamelCase(table);
-                String fields = getFields(table);
+                String fields = getFieldsForUpdate(table);
                 String primaryKeyType = "";
                 String primaryKeyColumn = getPrimaryKey(table);
                 try {
@@ -139,7 +139,6 @@ public class Controller {
                 // + ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)) + " "
                 // + ObjectUtility.formatToCamelCase(table);
                 String primaryKeyType = "";
-                String fields = getFields(table);
                 String primaryKeyColumn = getPrimaryKey(table);
                 try {
                         primaryKeyType = getPrimaryKeyType(table);
@@ -148,7 +147,6 @@ public class Controller {
                         primaryKeyType = "int";
                 }
                 args += this.crudMethod.getDelete().getParameter()
-                                .replace("#fields#", "\"" + fields + "\"")
                                 .replace("#typePrimaryKey#", primaryKeyType)
                                 .replace("#object#", ObjectUtility.formatToCamelCase(table))
                                 .replace("?", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)))
@@ -196,7 +194,6 @@ public class Controller {
         public String findById(String table) throws Exception {
                 String body = "";
                 String primaryKeyType = "";
-                String fields = getFields(table);
                 String primaryKeyColumn = getPrimaryKey(table);
                 String args = "";
                 try {
@@ -206,7 +203,6 @@ public class Controller {
                         primaryKeyType = "int";
                 }
                 args += this.crudMethod.getFindById().getParameter()
-                                .replace("#fields#", "\"" + fields + "\"")
                                 .replace("#typePrimaryKey#", primaryKeyType)
                                 .replace("#object#", ObjectUtility.formatToCamelCase(table))
                                 .replace("?", ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(table)))
@@ -272,17 +268,19 @@ public class Controller {
 
         public String getControllerClass(String table, String framework) {
                 String res = "";
-                // Annotation controller
-                if (!this.getAnnotationProperty().getController().equals("")) {
-                        res += this.getLanguageProperties().getAnnotationSyntax()
-                                        .replace("?", this.getAnnotationProperty().getController()) + "\n";
-                }
-                // Route Annotation controller
-                if (!this.getControllerProperty().getPath().equals("")) {
-                        res += this.getLanguageProperties().getAnnotationSyntax()
-                                        .replace("?", this.getControllerProperty().getPath().replace("?",
-                                                        ObjectUtility.formatToCamelCase(table)));
-                }
+                if (this.controllerProperty.isControllerUse()) {
+                	// Annotation controller
+                    if (!this.getAnnotationProperty().getController().equals("")) {
+                            res += this.getLanguageProperties().getAnnotationSyntax()
+                                            .replace("?", this.getAnnotationProperty().getController()) + "\n";
+                    }
+                    // Route Annotation controller
+                    if (!this.getControllerProperty().getPath().equals("")) {
+                            res += this.getLanguageProperties().getAnnotationSyntax()
+                                            .replace("?", this.getControllerProperty().getPath().replace("?",
+                                                            ObjectUtility.formatToCamelCase(table)));
+                    }	
+				}
                 res = res.replace("?", ObjectUtility.formatToCamelCase(table)) + "\n"
                                 + this.getLanguageProperties().getClassSyntax() + " "
                                 + ObjectUtility.capitalize(ObjectUtility.formatToCamelCase(
@@ -358,7 +356,7 @@ public class Controller {
                 }
         }
 
-        private String getFields(String table) throws Exception {
+        private String getFieldsForUpdate(String table) throws Exception {
                 String toReturn = "";
                 HashMap<String, String> columns = DbService.getColumnNameAndType(dbConnection.getConnection(), table);
                 int i = 0;
@@ -371,6 +369,30 @@ public class Controller {
                 }
                 return toReturn;
         }
+        
+        private String getFieldsForSave(String table) throws Exception {
+            String toReturn = "";
+            HashMap<String, String> columns = DbService.getColumnNameAndType(dbConnection.getConnection(), table);
+            List<String> primaryKeyColumn = DbService.getPrimaryKey(dbConnection, table);
+            String primaryKey = primaryKeyColumn.get(0);
+            int i = 0;
+            for (Entry<String, String> set : columns.entrySet()) {
+            		if (!set.getKey().equals(primaryKey)) {
+	            			toReturn += ObjectUtility.formatToCamelCase(set.getKey());
+	                        if (i != columns.size() - 1) {
+	                                toReturn += ",";
+	                        }
+					}
+            		i++;
+            }
+            int sizeLast = toReturn.length() - 1;
+            if (toReturn.charAt(sizeLast) == ',') {
+            	return toReturn.substring(0, sizeLast);	
+			}
+            return toReturn;
+    }
+        
+        
 
         private String generateForeignObjectToView(String table) throws Exception {
                 HashMap<String, String> foreignKeys = DbService.getForeignKeys(dbConnection, table);
